@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+
+{% block userProfile %}
+
+    {{ form.name.label }}
+    {{ form.name }}
+
+    {{ form.experience.label }}
+    {{ form.experience }}
+
+    {{ form.fav_crypto.label }}
+    {{ form.fav_crypto }}
+
+    {{ form.bio.label }}
+    {{ form.bio }}
+
+    {{ form.submit }}
+
+
+
+
+
+{% endblock userProfile %}

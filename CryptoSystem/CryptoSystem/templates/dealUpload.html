@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+
+{% block dealUpload %}
+
+    {{ form.trade_currency.label }}
+    {{ form.trade_currency }}
+
+    {{ form.accepted_currency.label }}
+    {{ form.accepted_currency }}
+
+    {{ form.amount.label }}
+    {{ form.amount }}
+
+    {{ form.submit }}
+
+
+
+
+
+{% endblock dealUpload %}
