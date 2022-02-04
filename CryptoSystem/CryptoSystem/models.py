@@ -1,6 +1,5 @@
 from CryptoSystem import db
 Model=db.Model
-#todo add __repr__
 class User(Model):
     identifier = db.Column(db.Integer, primary_key=True)
     bio = db.Column(db.String(200), nullable=False, default='')
