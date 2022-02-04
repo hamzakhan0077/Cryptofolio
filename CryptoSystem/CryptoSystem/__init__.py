@@ -1,5 +1,11 @@
 from flask import Flask
-from CryptoSystem import routes
+from flask_sqlalchemy import SQLAlchemy
+#from models import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CS3305-2022'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
+
+from CryptoSystem import routes
+from CryptoSystem import models
