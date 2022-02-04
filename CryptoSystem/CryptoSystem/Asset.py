@@ -17,4 +17,11 @@ class Asset:
     def getMarketVal(self):
         return self._marketVal
 
+    def setMarketVal(self, val):
+        self._marketVal = val
+
+    def __str__(self):
+        ans = self.getName() + "  Market Value: " + str(self.getMarketVal())
+        return ans
+
 
