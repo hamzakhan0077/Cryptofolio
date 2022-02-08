@@ -9,8 +9,8 @@ class User(Model):
     fav_crypto = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
     wallets = db.relationship('Wallet', backref='owner', lazy=True)
 
-    def __repr__(self, identifier, first_name, last_name):
-        return f"User({identifier}, {first_name}, {last_name})"
+    def __repr__(self):
+        return f"User({self.identifier}, {self.first_name}, {self.last_name})"
 
 
 
@@ -25,8 +25,8 @@ class Wallet(Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.identifier'), nullable=False)
     coins = db.relationship('Asset', secondary=contains, lazy='subquery')
     
-    def __repr__(self, hash):
-        return f"Wallet({hash})"
+    def __repr__(self):
+        return f"Wallet({self.hash})"
 
 
 class Asset(Model):
@@ -37,8 +37,8 @@ class Asset(Model):
     fans = db.relationship('User', backref='fan', lazy=True)
     owners = db.relationship('Wallet', secondary=contains, lazy=True)
     
-    def __repr__(self, identifier, name):
-        return f"User({identifier}, {name})"
+    def __repr__(self):
+        return f"User({self.identifier}, {self.name})"
 
 
 class Comment(Model):
@@ -48,5 +48,5 @@ class Comment(Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.identifier'), nullable=False)
     asset = db.Column('asset_id', db.String(10), db.ForeignKey('asset.identifier'))
     
-    def __repr__(self, identifier, user, body):
-        return f"User({identifier}, {user}, {body})"
+    def __repr__(self):
+        return f"User({self.identifier}, {self.user}, {self.body})"
