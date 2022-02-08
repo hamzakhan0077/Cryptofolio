@@ -1,4 +1,4 @@
-from Asset import Asset
+from CryptoSystem.Asset import *
 
 """
 main goal,
@@ -25,6 +25,19 @@ Main wallet Page
 #   withdraw 
 #   transfer
 #   deposit
+
+# login
+# assume login system exists and user is logged in
+# user is created they are assigned a wallet with a key
+# add user to db externally
+
+
+# create html file called Wallet.html
+# inherits from layouts.html
+# create block called wallet info in layout.html 
+# use that block to define wallet.html functionalities 
+# create dummy wallet with dummy assets in routes.py
+# 
 
 """
 
@@ -95,18 +108,19 @@ class Wallet:
         return ans
 
 
-wallet = Wallet("#123keyKarim")
-eoghanWallet = Wallet("#456KeyEoghan")
+if __name__ == "__main__":
+    wallet = Wallet("#123keyKarim")
+    eoghanWallet = Wallet("#456KeyEoghan")
 
-teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
-for i in teseter:
-    wallet.fillAssets(i, 1)
-    eoghanWallet.fillAssets(i, 1)
+    teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
+    for i in teseter:
+        wallet.fillAssets(i, 1)
+        eoghanWallet.fillAssets(i, 1)
 
-print(wallet)
-print(eoghanWallet)
+    print(wallet)
+    print(eoghanWallet)
 
-wallet.transfer("BitCoin", 1, eoghanWallet)
-print(eoghanWallet)
-print(wallet.findAssetsMarketValue())
-print(eoghanWallet.findAssetsMarketValue())
+    wallet.transfer("BitCoin", 1, eoghanWallet)
+    print(eoghanWallet)
+    print(wallet.findAssetsMarketValue())
+    print(eoghanWallet.findAssetsMarketValue())

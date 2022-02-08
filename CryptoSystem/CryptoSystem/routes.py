@@ -1,10 +1,23 @@
 from CryptoSystem import app
 from CryptoSystem.forms import *
 from flask import render_template
+from CryptoSystem.Wallet import *
+from CryptoSystem.Asset import *
 
 @app.route('/')
 def test():
     return render_template("test.html")
+
+""" ******************** Wallet Test ******************** """
+@app.route('/wallet')
+def showWallet():
+    wallet = Wallet("123Test")
+    teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
+    for i in teseter:
+        wallet.fillAssets(i, 1)
+
+
+    return render_template("wallet.html", wallet=wallet)
 
 
 
