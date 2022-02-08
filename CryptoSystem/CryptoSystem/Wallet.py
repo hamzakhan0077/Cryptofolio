@@ -1,4 +1,4 @@
-from Asset import Asset
+from CryptoSystem.Asset import *
 
 """
 main goal,
@@ -25,6 +25,19 @@ Main wallet Page
 #   withdraw 
 #   transfer
 #   deposit
+
+# login
+# assume login system exists and user is logged in
+# user is created they are assigned a wallet with a key
+# add user to db externally
+
+
+# create html file called Wallet.html
+# inherits from layouts.html
+# create block called wallet info in layout.html 
+# use that block to define wallet.html functionalities 
+# create dummy wallet with dummy assets in routes.py
+# 
 
 """
 
@@ -53,27 +66,39 @@ class Wallet:
     def setTotalValue(self, val):
         self._totalAssetVal = val
 
-    def withdraw(self, amount, destinationAddress):  ## check this
-        pass
+    def withdraw(self, currencyName, amount):  ## check this
+        asset = self.getAssetDetails(currencyName)
+        if self._assets[asset] >= amount:
+            self._assets[asset] -= amount
+            self.setTotalValue(self.getTotalValue() - asset.getMarketVal() * amount)
+            # send to destination
+        else:
+            return "not enough funds"
 
     def transfer(self, currencyName, amount, destinationWallet):
+        # find a way to see if transfer failed
+
+        self.withdraw(currencyName, amount)  # abstract for now
+        destinationWallet.deposit(currencyName, amount)
+
+    def deposit(self, currencyName, amount):
+
         asset = self.getAssetDetails(currencyName)
-        self._assets[asset] -= amount
+        self._assets[asset] += amount
         self.setTotalValue(self.getTotalValue() - asset.getMarketVal() * amount)
 
-    def deposit(self, assetAmount):
+    def quickBuy(self):
         # redirect to quick buy
         pass
 
-    def getAssetDetails(self, nameofcurrency): #helper function
+    def getAssetDetails(self, nameofcurrency):  # helper function
         for asset in self._assets:
             if nameofcurrency == asset.getName():
                 return asset
 
-    def findAssetsMarketValue(self): #helper function
+    def findAssetsMarketValue(self):  # helper function
         for asset in self._assets:
             print(asset)
-
 
     def __str__(self):
         ans = "Encryption Key: " + self.getEncKey() + ",\t Assets: "
@@ -83,12 +108,19 @@ class Wallet:
         return ans
 
 
-wallet = Wallet("#123keyKarim")
-teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
-for i in teseter:
-    wallet.fillAssets(i, 1)
+if __name__ == "__main__":
+    wallet = Wallet("#123keyKarim")
+    eoghanWallet = Wallet("#456KeyEoghan")
 
-print(wallet)
-wallet.transfer("BitCoin", 1, "123")
-print(wallet)
-print(wallet.findAssetsMarketValue())
+    teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
+    for i in teseter:
+        wallet.fillAssets(i, 1)
+        eoghanWallet.fillAssets(i, 1)
+
+    print(wallet)
+    print(eoghanWallet)
+
+    wallet.transfer("BitCoin", 1, eoghanWallet)
+    print(eoghanWallet)
+    print(wallet.findAssetsMarketValue())
+    print(eoghanWallet.findAssetsMarketValue())
