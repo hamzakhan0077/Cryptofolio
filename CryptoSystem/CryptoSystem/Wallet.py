@@ -1,4 +1,6 @@
-from CryptoSystem.Asset import *
+#from CryptoSystem.Asset import *
+
+from Asset import Asset
 
 """
 main goal,
@@ -100,6 +102,12 @@ class Wallet:
         for asset in self._assets:
             print(asset)
 
+    def getAssetData(self):
+        # res ={}
+        # for i in self._assets.items():
+
+        return self._assets
+
     def __str__(self):
         ans = "Encryption Key: " + self.getEncKey() + ",\t Assets: "
         for i in self._assets.items():
@@ -109,18 +117,29 @@ class Wallet:
 
 
 if __name__ == "__main__":
+    import json
     wallet = Wallet("#123keyKarim")
     eoghanWallet = Wallet("#456KeyEoghan")
+    res = {}
 
     teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
     for i in teseter:
         wallet.fillAssets(i, 1)
         eoghanWallet.fillAssets(i, 1)
 
-    print(wallet)
-    print(eoghanWallet)
+    print(wallet.getAssetData())
+    dat = open("test/wallet.json", "a")
+    wallets = [wallet,eoghanWallet]
+    for val in wallets:
+        res[val.getEncKey()] = [("BTC",10),("LTC",29)]
+    dat.write(json.dumps(res))
 
-    wallet.transfer("BitCoin", 1, eoghanWallet)
-    print(eoghanWallet)
-    print(wallet.findAssetsMarketValue())
-    print(eoghanWallet.findAssetsMarketValue())
+
+
+    print(res)
+    #print(eoghanWallet)
+
+    # wallet.transfer("BitCoin", 1, eoghanWallet)
+    # print(eoghanWallet)
+    # print(wallet.findAssetsMarketValue())
+    # print(eoghanWallet.findAssetsMarketValue())

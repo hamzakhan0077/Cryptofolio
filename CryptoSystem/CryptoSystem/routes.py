@@ -8,6 +8,14 @@ from CryptoSystem.Asset import *
 def test():
     return render_template("test.html")
 
+""" ******************** Features  ******************** """
+@app.route('/peer2peer')
+def p2p():
+    pass
+
+
+
+
 """ ******************** Wallet Test ******************** """
 @app.route('/wallet')
 def showWallet():
