@@ -3,7 +3,7 @@ from wtforms import StringField,SubmitField,TextAreaField,IntegerField,SelectFie
 from wtforms.validators import DataRequired,NumberRange
 from .models import Asset
 
-all_coins = [(asset.identifier, asset.name) for asset in Asset.query.all()]
+all_coins = []#(asset.identifier, asset.name) for asset in Asset.query.all()]
 
 class user_profile(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
