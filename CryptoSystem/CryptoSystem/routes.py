@@ -64,7 +64,7 @@ def showWallet():
 """ ******************** Forms ******************** """
 
 @app.route('/userProfile',methods=['GET', 'POST'])
-def user_profile():
+def userProfile():
     form = user_profile()
     return render_template("userProfile.html", form=form)
 
