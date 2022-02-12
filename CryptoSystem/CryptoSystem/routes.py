@@ -1,14 +1,16 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
-from flask import render_template,url_for,redirect, session
+from flask import render_template,url_for,redirect, session,abort
 from CryptoSystem.Wallet import *
 from CryptoSystem.Asset import *
-
-
+from CryptoSystem.models import User
+from hashlib import sha256
+from datetime import date
+from CryptoSystem import db
 
 @app.route('/')
-def test():
-    return render_template("test.html")
+def index():
+    return render_template("index.html")
 
 """ ******************** Features  ******************** """
 @app.route('/peer2peer')
@@ -16,7 +18,14 @@ def p2p():
     pass
 
 
+@app.route('/market')
+def market():
+    return render_template("market.html")
+
+
+
 """ ******************** Auth  ******************** """
+
 
 
 
@@ -31,16 +40,23 @@ def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
     resp = google.get('userinfo')
-    resp.raise_for_status()
-    profile = resp.json()
-    # do something with the token and profile
-    return redirect('/')
+    user_info = resp.json()
+    user = oauth.google.userinfo()
+    session['profile'] = user_info
+    wallet = Wallet(sha256(session['profile']['email'].encode()).hexdigest())
+    cryp_user = User(first_name = session['profile']['name'],last_name = session['profile']['family_name'], email = session['profile']['email'],date_started = date.today(),wallet_hash = wallet.getEncKey())
+    db.session.add(cryp_user)
+    db.session.commit()
+
+    return redirect('/market')
 
 
 @app.route('/logout')
 def logout():
+
     for key in list(session.keys()):
         session.pop(key)
+
 
     return redirect('/')
 

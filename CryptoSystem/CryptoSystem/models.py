@@ -6,18 +6,22 @@ contains = db.Table('contains',
     db.Column('amount', db.Float(), nullable=False)
 )
 
+
+
+
 class User(Model):
-    identifier = db.Column(db.Integer, primary_key=True)
-    bio = db.Column(db.String(200), nullable=False, default='')
+    # identifier = db.Column(db.Integer, primary_key=True)
+    bio = db.Column(db.String(200), nullable=True, default='')
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(30), nullable=False,primary_key = True)
     date_started = db.Column(db.Date, nullable=False)
-    coins = db.relationship('Asset', secondary=contains, lazy='subquery')
-    fav_crypto = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
+    # coins = db.relationship('Asset', secondary=contains, lazy='subquery') # ?? wallet will have assets
+    fav_crypto = db.Column(db.String(10),db.ForeignKey('asset.identifier'),nullable =True)
     wallet_hash = db.Column(db.String(64))
 
     def __repr__(self):
-        return f"User({self.identifier}, {self.first_name}, {self.last_name})"
+        return f"User({self.first_name}, {self.last_name},{self.email},{self.wallet_hash},{self.date_started})"
 
 
 
