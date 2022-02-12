@@ -31,22 +31,28 @@ def market():
 
 @app.route('/login')
 def login():
+
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
     return google.authorize_redirect(redirect_uri)
 
 @app.route('/authorize')
 def authorize():
+
     google = oauth.create_client('google')
     token = google.authorize_access_token()
-    resp = google.get('userinfo')
-    user_info = resp.json()
-    user = oauth.google.userinfo()
-    session['profile'] = user_info
-    wallet = Wallet(sha256(session['profile']['email'].encode()).hexdigest())
-    cryp_user = User(first_name = session['profile']['name'],last_name = session['profile']['family_name'], email = session['profile']['email'],date_started = date.today(),wallet_hash = wallet.getEncKey())
-    db.session.add(cryp_user)
-    db.session.commit()
+    user_info =  oauth.google.userinfo()
+    if not User.query.filter_by(email =  user_info['email']): # if user is not already in DB
+        wallet = Wallet(sha256(user_info['email'].encode()).hexdigest())
+        cryp_user = User(first_name =  user_info['name'],last_name =  user_info['family_name'], email =  user_info['email'],date_started = date.today(),wallet_hash = wallet.getEncKey())
+        db.session.add(cryp_user)
+        db.session.commit()
+    else:
+        print("this user is already there")
+
+
+
+
 
     return redirect('/market')
 
