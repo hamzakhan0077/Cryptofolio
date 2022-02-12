@@ -1,8 +1,10 @@
-from CryptoSystem import app
+from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
-from flask import render_template
+from flask import render_template,url_for,redirect, session
 from CryptoSystem.Wallet import *
 from CryptoSystem.Asset import *
+
+
 
 @app.route('/')
 def test():
@@ -12,6 +14,36 @@ def test():
 @app.route('/peer2peer')
 def p2p():
     pass
+
+
+""" ******************** Auth  ******************** """
+
+
+
+@app.route('/login')
+def login():
+    google = oauth.create_client('google')
+    redirect_uri = url_for('authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+@app.route('/authorize')
+def authorize():
+    google = oauth.create_client('google')
+    token = google.authorize_access_token()
+    resp = google.get('userinfo')
+    resp.raise_for_status()
+    profile = resp.json()
+    # do something with the token and profile
+    return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+
+    return redirect('/')
+
 
 
 

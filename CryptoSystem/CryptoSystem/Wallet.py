@@ -1,6 +1,6 @@
 #from CryptoSystem.Asset import *
 
-from Asset import Asset
+from CryptoSystem.Asset import Asset
 
 """
 main goal,
