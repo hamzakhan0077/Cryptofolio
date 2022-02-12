@@ -1,6 +1,6 @@
 #from CryptoSystem.Asset import *
 
-from CryptoSystem.Asset import Asset
+from CryptoSystem.Asset import Asset_Handler
 
 """
 main goal,
@@ -44,10 +44,10 @@ Main wallet Page
 """
 
 
-class Wallet:
+class Wallet_Handler:
 
     def __init__(self, encKey):
-        self._assets = {}
+        self._assets = []
         self._encKey = encKey
         self._totalAssetVal = 0
 
@@ -55,8 +55,8 @@ class Wallet:
         return self._encKey
 
     def fillAssets(self, asset, amountOfCoin):
-        self._assets[asset] = amountOfCoin
-        self._totalAssetVal += asset.getMarketVal()
+        self._assets.append((asset,amountOfCoin))
+        # self._totalAssetVal += asset.getMarketVal()
 
     # def reduceAssets(self, asset):
     #     self._assets[asset.getName()] = asset.getMarketVal()
@@ -110,10 +110,13 @@ class Wallet:
 
     def __str__(self):
         ans = "Encryption Key: " + self.getEncKey() + ",\t Assets: "
-        for i in self._assets.items():
-            ans += i[0].getName() + "--" + str(i[1]) + ", "
-        ans += "\tTotal Value:" + str(self.getTotalValue())
+        for val in self._assets:
+            ans+=str(val)
         return ans
+        # for i in self._assets.items():
+        #     ans += i[0].getName() + "--" + str(i[1]) + ", "
+        # ans += "\tTotal Value:" + str(self.getTotalValue())
+        # return ans
 
 
 if __name__ == "__main__":

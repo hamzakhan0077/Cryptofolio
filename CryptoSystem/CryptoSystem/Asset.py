@@ -5,7 +5,7 @@
 # wallet has balance
 
 
-class Asset:
+class Asset_Handler:
 
     def __init__(self, name, marketVal):
         self._name = name

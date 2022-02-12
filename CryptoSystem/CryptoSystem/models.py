@@ -25,22 +25,43 @@ class User(Model):
 
 
 
-class Asset(Model):
-    identifier = db.Column(db.String(10), primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
-    fans = db.relationship('User', backref='fan', lazy=True)
-    #owners = db.relationship('User', secondary=contains, lazy=True)
-    
+
+class Wallet(Model):
+    encryption_key = db.Column(db.String(500), nullable=False,primary_key = True)
+    wallet_holder_email =  db.Column(db.String(20), nullable=False)
+    assets = db.relationship('Asset', backref='wallet', lazy=True)
     def __repr__(self):
-        return f"User({self.identifier}, {self.name})"
+        return f"Wallet({self.encryption_key}, {self.wallet_holder_email}"
+
+class Asset(Model):
+    identifier = db.Column(db.String(50),primary_key = True, nullable=False)
+    asset_name =  db.Column(db.String(20), nullable=False)
+    asset_amount = db.Column(db.Float(20), nullable=False)
+    wallet_encryption_key =  db.Column(db.String, db.ForeignKey('wallet.encryption_key'),
+        nullable=False)
+    def __repr__(self):
+        return f"Asset({self.wallet_encryption_key},{self.identifier}, {self.asset_name}),{self.asset_amount}"
+
+
+
+#Liam
+
+# class Asset(Model):
+#     identifier = db.Column(db.String(10), primary_key=True)
+#     name = db.Column(db.String(50), nullable=False)
+#     description = db.Column(db.String(200))
+#     fans = db.relationship('User', backref='fan', lazy=True)
+#     #owners = db.relationship('User', secondary=contains, lazy=True)
+#
+#     def __repr__(self):
+#         return f"User({self.identifier}, {self.name})"
 
 class Advertisement(Model):
     identifier = db.Column(db.Integer, primary_key=True)
     advertiser_offering = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
     advertiser_accepting = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
-    offering_amount = db.Column(db.Float)
-    offering_amount = db.Column(db.Float)
+    offering_amount = db.Column(db.Float,nullable=False)
+    offering_amount = db.Column(db.Float,nullable=False)
     time_created = db.Column(db.Date())
 
 # class Comment(Model):

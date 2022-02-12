@@ -3,7 +3,7 @@ from CryptoSystem.forms import *
 from flask import render_template,url_for,redirect, session,abort
 from CryptoSystem.Wallet import *
 from CryptoSystem.Asset import *
-from CryptoSystem.models import User
+from CryptoSystem.models import User,Wallet
 from hashlib import sha256
 from datetime import date
 from CryptoSystem import db
@@ -42,9 +42,13 @@ def authorize():
     google = oauth.create_client('google')
     token = google.authorize_access_token()
     user_info =  oauth.google.userinfo()
-    if not User.query.filter_by(email =  user_info['email']): # if user is not already in DB
-        wallet = Wallet(sha256(user_info['email'].encode()).hexdigest())
-        cryp_user = User(first_name =  user_info['name'],last_name =  user_info['family_name'], email =  user_info['email'],date_started = date.today(),wallet_hash = wallet.getEncKey())
+    session['email'] = user_info['email']
+    if not User.query.filter_by(email =  user_info['email']).all(): # if user is not already in DB
+        # wallet = Wallet(sha256(user_info['email'].encode()).hexdigest())
+        wallet_enc_key = sha256(user_info['email'].encode()).hexdigest()
+        wallet = Wallet(encryption_key= wallet_enc_key,wallet_holder_email =user_info['email'] )
+        cryp_user = User(first_name =  user_info['name'],last_name =  user_info['family_name'], email =  user_info['email'],date_started = date.today(),wallet_hash = wallet_enc_key)
+        db.session.add(wallet)
         db.session.add(cryp_user)
         db.session.commit()
     else:
@@ -73,13 +77,14 @@ def logout():
 """ ******************** Wallet Test ******************** """
 @app.route('/wallet')
 def showWallet():
-    wallet = Wallet("123Test")
-    teseter = [Asset("BitCoin", 123), Asset("Doge", 456), Asset("Shiba Inu", 789)]
-    for i in teseter:
-        wallet.fillAssets(i, 1)
-
-
-    return render_template("wallet.html", wallet=wallet)
+    the_user = User.query.filter_by(email =session['email']).first()
+    wallet_handler = Wallet_Handler(the_user.wallet_hash)
+    all_assets = []
+    for asset in  Asset.query.filter_by(wallet_encryption_key=the_user.wallet_hash).all():
+        all_assets.append((asset.identifier,asset.asset_amount)) # I am adding as tuple as Market Val Api is not ready yet
+    for val in all_assets:
+        wallet_handler.fillAssets(val[0],val[1])
+    return render_template("wallet.html", wallet=wallet_handler)
 
 
 
