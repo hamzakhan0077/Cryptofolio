@@ -3,6 +3,8 @@
 
 {% block getStarted %}
 
-<a href = "{{ url_for('login') }}"> Get Started </a>
-
+        <a href="{{ url_for('login') }}" >
+          <span class="material-icons-sharp">grid_view</span>
+          <h3>Get Started</h3>
+        </a>
 {% endblock getStarted %}

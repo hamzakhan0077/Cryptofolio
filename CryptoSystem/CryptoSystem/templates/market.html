@@ -1,11 +1,205 @@
 {% extends "layout.html" %}
 
+{% block walletInfo %}
+
+<a href="{{ url_for('showWallet') }}">
+          <span class="material-icons-sharp">Wallet</span>
+          <h3>Wallet</h3>
+        </a>
+{% endblock walletInfo %}
+
+{% block logout %}
+<a href="{{ url_for('logout') }}">
+          <span class="material-icons-sharp">logout</span>
+          <h3>Logout</h3>
+        </a>
+
+{% endblock logout %}
+
 
 {% block market %}
+ <main>
 
-<h1>You are in the market </h1>
-<a href = "{{ url_for('showWallet') }}"> View My Wallet </a>
-<a href = "{{ url_for('logout') }}"> Logout </a>
+      <div class="recent-orders">
+        <div class="row my-5">
+          <h3 class="fs-4 mb-3">Market Trade Live Prices</h3>
+          <div class="col">
+              <table class="table bg-white rounded shadow-sm  table-hover">
+                  <thead>
+                      <tr>
+                          <th scope="col" width="50">#</th>
+                          <th scope="col">Product</th>
+                          <th scope="col">Market Trade </th>
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Bitcoin</td>
+                          <td>$750</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">2</th>
+                          <td>Etheruem</td>
+                          <td>$1200</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">3</th>
+                          <td>Etheruem</td>
+                          <td>$300</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">4</th>
+                          <td>Shibi Una</td>
+                          <td>$600</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      </div>
+    </main>
 
 
 

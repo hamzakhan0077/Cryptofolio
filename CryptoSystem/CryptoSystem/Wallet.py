@@ -112,6 +112,7 @@ class Wallet_Handler:
         ans = "Encryption Key: " + self.getEncKey() + ",\t Assets: "
         for val in self._assets:
             ans+=str(val)
+
         return ans
         # for i in self._assets.items():
         #     ans += i[0].getName() + "--" + str(i[1]) + ", "
