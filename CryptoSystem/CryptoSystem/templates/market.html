@@ -24,178 +24,27 @@
         <div class="row my-5">
           <h3 class="fs-4 mb-3">Market Trade Live Prices</h3>
           <div class="col">
-              <table class="table bg-white rounded shadow-sm  table-hover">
-                  <thead>
-                      <tr>
-                          <th scope="col" width="50">#</th>
-                          <th scope="col">Product</th>
-                          <th scope="col">Market Trade </th>
+              <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th scope="2">Cryptocurrency</th>
+                        <th>Price ( in {{ currency }} )</th>
+                        <th>Volume</th>
+                    </tr>
 
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Bitcoin</td>
-                          <td>$750</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Etheruem</td>
-                          <td>$1200</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Etheruem</td>
-                          <td>$300</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Shibi Una</td>
-                          <td>$600</td>
-                      </tr>
-                  </tbody>
-              </table>
+                    {% for crypto in cryptos %}
+
+                    <tr>
+                        <td>{{ crypto["rank"] }}</td>
+                        <td><img src="{{ crypto['image'] }}" alt="{{ crypto['name'] }} Symbol"/></td>
+                        <td>{{ crypto["name"] }}</td>
+                        <td><a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"] }}<a/></td>
+                        <td>{{ crypto["price"] }}</td>
+                        <td>{{ crypto["volume"] }}</td>
+                    </tr>
+
+                    {% endfor %}
+            </table>
           </div>
       </div>
       </div>

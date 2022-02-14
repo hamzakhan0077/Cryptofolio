@@ -6,13 +6,19 @@ from CryptoSystem.Asset import *
 from CryptoSystem.models import User,Wallet
 from hashlib import sha256
 from datetime import date
-from CryptoSystem import db
+from CryptoSystem import db, cg
+from pycoingecko import CoinGeckoAPI
+from CryptoSystem.helpers import *
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
 """ ******************** Features  ******************** """
+
+chosen_currency = 'eur'
+days = 3
+
 @app.route('/peer2peer')
 def p2p():
     pass
@@ -20,8 +26,22 @@ def p2p():
 
 @app.route('/market')
 def market():
-    return render_template("market.html")
 
+    cryptos = [{"rank": coin["market_cap_rank"], "image": coin["image"], "name": coin["name"],
+                "symbol": coin["symbol"], "price": coin["current_price"], "volume": coin["total_volume"]}
+               for coin in cg.get_coins_markets(vs_currency=chosen_currency)]
+    return render_template("market.html",currency = chosen_currency, cryptos = cryptos)
+
+@app.route('/coin/<string:crypto>')
+def coinCall(crypto):
+   crypto_details = [coin for coin in cg.get_coins_markets(vs_currency = chosen_currency) if coin["name"] == crypto ][0]
+   current_date = datetime.now().date()
+   current_unix_time = datetime_to_unix(current_date.year, current_date.month, current_date.day)
+   result = cg.get_coin_market_chart_range_by_id( id = crypto_details["id"], vs_currency = chosen_currency,
+       from_timestamp = str(int(current_unix_time) - (86400 * days)), to_timestamp = current_unix_time)["prices"]
+   print(result)
+
+   return render_template("coin.html", currency = chosen_currency, crypto_details = crypto_details )
 
 
 """ ******************** Auth  ******************** """

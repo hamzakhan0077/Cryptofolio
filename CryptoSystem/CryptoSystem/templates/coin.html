@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block coin %}
+    <section>
+        <h1>{{ crypto_details["name"] }}</h1>
+        <img src="{{ crypto_details['image'] }}" alt="{{ crypto_details['name'] }}"/>
+        <table>
+            <tr>
+                <th>Current Price</th>
+                <th>Price Change 24h %</th>
+                <th>Market Cap</th>
+                <th>Market Cap Change 24h %</th>
+                <th>Total Volume</th>
+                <th>Last Updated</th>
+            </tr>
+            <tr>
+                <td>{{ crypto_details["current_price"] }}</td>
+                <td>{{ crypto_details["price_change_percentage_24h"] }}%</td>
+                <td>{{ crypto_details["market_cap"] }}</td>
+                <td>{{ crypto_details["market_cap_change_percentage_24h"] }}%</td>
+                <td>{{ crypto_details["total_volume"] }}</td>
+                <td>{{ crypto_details["last_updated"] }}</td>
+            </tr>
+        </table>
+    </section>
+{% endblock coin %}

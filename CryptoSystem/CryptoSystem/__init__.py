@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
+from pycoingecko import CoinGeckoAPI
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CS3305-2022'
@@ -27,6 +28,8 @@ google_conf = oauth.register(
 
 
 #db.create_all()
+
+cg = CoinGeckoAPI()
 
 from CryptoSystem import routes
 from CryptoSystem import forms
