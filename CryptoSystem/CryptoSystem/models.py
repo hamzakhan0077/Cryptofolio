@@ -19,39 +19,56 @@ class User(Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
     date_started = db.Column(db.Date, nullable=False)
-    fav_crypto = db.Column(db.String(10), db.ForeignKey('asset.identifier'), nullable =True)
+    fav_crypto = db.Column(db.String(10), db.ForeignKey('asset.asset_id'), nullable =True)
     wallet_hash = db.Column(db.String(64), unique=True, nullable=False)
 
     def __repr__(self):
         return f"User({self.first_name}, {self.last_name},{self.email},{self.wallet_hash},{self.date_started})"
 
 
-class Coin(Model):
+
+class Wallet(Model):
+    encryption_key = db.Column(db.String(500), nullable=False,primary_key = True)
+    wallet_holder_email =  db.Column(db.String(20), nullable=False)
+    assets = db.relationship('Asset', backref='wallet', lazy=True)
+    def __repr__(self):
+        return f"Wallet({self.encryption_key}, {self.wallet_holder_email}"
+
+
+class Asset(Model):
     """
     Associative table (Many-Many helper table) between User and Asset
     -wallet_hash: the cryptographic hash used to identify the wallet
     -asset_id: the id of the asset the user holds
-    -asset_amount: the amount of the asset the user holds
+
     """
-    wallet_hash =  db.Column(db.String(64), db.ForeignKey('user.wallet_hash'), nullable=False, primary_key=True)
-    asset_id = db.Column(db.String(50), db.ForeignKey('asset.identifier'), nullable=False, primary_key=True)
+
+    asset_id = db.Column(db.String(50), nullable=False, primary_key=True)
     asset_amount = db.Column(db.Float(20), nullable=False)
+    wallet_encryption_key = db.Column(db.String(64), db.ForeignKey('wallet.encryption_key'), nullable=False, primary_key=True)
 
     def __repr__(self):
-        return f"Coins({self.wallet_holder_email} owns {self.asset_amount} of {self.asset_id})"
+        return f"Assets(Email = {self.wallet_holder_email}, Asset_Id= {self.asset_id})"
 
     
 
-class Asset(Model):
-    """
-    Holds information specific to an asset (e.g. Bitcoin)
-    -identifier: the ticker of the asset
-    -asset_name: the name of the asset
-    """
-    identifier = db.Column(db.String(50),primary_key = True, nullable=False)
-    asset_name =  db.Column(db.String(20), nullable=False)
-    def __repr__(self):
-        return f"Asset(id={self.identifier}, name={self.asset_name})"
+# class Amount(Model):
+#     """
+#     Holds information specific to an asset (e.g. Bitcoin)
+#     -identifier: the ticker of the asset
+#     -asset_name: the name of the asset
+#       -asset_amount: the amount of the asset the user holds
+#     """
+#     identifier = db.Column(db.String(50),primary_key = True, nullable=False)
+#     asset_name =  db.Column(db.String(20), nullable=False)
+#
+#     def __repr__(self):
+#         return f"Asset(id={self.identifier}, name={self.asset_name})"
+#
+#
+#
+#
+#
 
 
 class Advertisement(Model):
@@ -64,17 +81,17 @@ class Advertisement(Model):
     -advertiser_accepting: what the advertiser is willing to accept
     -accepting_amount: what the advertiser wants to accept
     """
-    identifier = db.Column(db.Integer, primary_key=True)
+    asset_id = db.Column(db.Integer, primary_key=True)
     time_created = db.Column(db.Date())
 
-    advertiser_offering = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
+    advertiser_offering = db.Column(db.String(10), db.ForeignKey('asset.asset_id'))
     offering_amount = db.Column(db.Float,nullable=False)
 
-    advertiser_accepting = db.Column(db.String(10), db.ForeignKey('asset.identifier'))
+    advertiser_accepting = db.Column(db.String(10), db.ForeignKey('asset.asset_id'))
     accepting_amount = db.Column(db.Float,nullable=False)
 
     def __repr__(self) -> str:
-        return f"Advertisement({self.identifier} selling {self.advertiser_offering})"
+        return f"Advertisement({self.asset_id} selling {self.advertiser_offering})"
 
 # class Comment(Model):
 #     identifier = db.Column(db.Integer, primary_key=True)

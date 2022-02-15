@@ -3,7 +3,7 @@ from CryptoSystem.forms import *
 from flask import render_template,url_for,redirect, session,abort
 from CryptoSystem.Wallet import *
 from CryptoSystem.Asset import *
-from CryptoSystem.models import User, Coin
+from CryptoSystem.models import *
 from hashlib import sha256
 from datetime import date
 from CryptoSystem import db, cg
@@ -65,11 +65,10 @@ def authorize():
     session['email'] = user_info['email']
     if not User.query.filter_by(email = user_info['email']).all(): # if user is not already in DB
         wallet_enc_key = sha256(user_info['email'].encode()).hexdigest()
-        cryp_user = User(first_name = user_info['name'],
-            last_name = user_info['family_name'], 
-            email = user_info['email'],
-            date_started = date.today(),
-            wallet_hash = wallet_enc_key)
+        wallet = Wallet(encryption_key=wallet_enc_key, wallet_holder_email=user_info['email'])
+        cryp_user = User(first_name=user_info['name'], last_name=user_info['family_name'], email=user_info['email'],
+                         date_started=date.today(), wallet_hash=wallet_enc_key)
+        db.session.add(wallet)
         db.session.add(cryp_user)
         db.session.commit()
     else:
@@ -101,8 +100,8 @@ def showWallet():
     the_user = User.query.filter_by(email =session['email']).first()
     wallet_handler = Wallet_Handler(the_user.wallet_hash)
     all_assets = []
-    for coin in  Coin.query.filter_by(wallet_hash=the_user.wallet_hash).all():
-        all_assets.append((coin.asset_id,coin.asset_amount)) # I am adding as tuple as Market Val Api is not ready yet
+    for asset in  Asset.query.filter_by(wallet_encryption_key=the_user.wallet_hash).all():
+        all_assets.append((asset.asset_id,asset.asset_amount)) # I am adding as tuple as Market Val Api is not ready yet
     for val in all_assets:
         wallet_handler.fillAssets(val[0],val[1])
     return render_template("wallet.html", wallet=wallet_handler)
