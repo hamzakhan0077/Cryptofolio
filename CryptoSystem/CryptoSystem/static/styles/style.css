@@ -489,7 +489,7 @@ fieldset {
 }
 
 
-/* preloader css */
+/* preloader css  (REMOVED  preloader because just dosent work -- keeps loading for the sake of time no fix)
 
 #page-preloader {
 	background: #ffffff;
@@ -628,7 +628,7 @@ fieldset {
 		width: 15px;
 	}
 }
-
+*/
 
 /* page banner style */
 

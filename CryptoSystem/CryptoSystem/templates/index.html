@@ -7,3 +7,166 @@
                             <a href="{{ url_for('login') }}" class="quote-btn">Get Started <i class="icofont icofont-caret-right"></i></a>
        </div>
 {% endblock getStarted %}
+
+{% block trending %}
+<li class="nav-link"><a href="" class="active nav-link">Trending</a></li>
+{% endblock trending%}
+
+{% block market %}
+  <section id="pricetable" class="section-padding">
+        <div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title">
+						<h5>Market</h5>
+						<h3>Trade digital currency <span>With Us</span></h3>
+					</div>
+				</div>
+			</div>
+	<div class="row">
+				<div class="col-lg-7 col-md-7 col-12 pr-lg-5 pr-md-5 pr-sm-0 pr-0 mb-lg-0 mb-md-4 mb-sm-4 mb-4">
+					<div class="table-responsive">
+						<table class="bitland-table table table-striped table-hover">
+							<thead>
+								<tr>
+									<th scope="col">Rank</th>
+                                    <th scope="col">Coin</th>
+									<th scope="col" width="10px">Name</th>
+									<th scope="col" width="10px">Price</th>
+									<th scope="col" >Volume</th>
+								</tr>
+							</thead>
+							<tbody>
+                                 {% for crypto in cryptos %}
+                                     <tr>
+                                        <td>{{ crypto["rank"] }}</td>
+                                        <td><img src="{{ crypto['image'] }}" alt="{{ crypto['name'] }}" width="50" height="50"/></td>
+                                         <td>{{ crypto["name"] }} (<a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"] }}</a>)</td>
+<!--                                        <td><a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"] }}</a></td>-->
+                                        <td>{{ crypto["price"] }}</td>
+                                        <td>{{ crypto["volume"] }}</td>
+                                     </tr>
+
+
+                                 {% endfor %}
+							</tbody>
+						</table>
+					</div>
+                </div>
+    </div>
+        </div>
+  </section>
+{% endblock market %}
+{% block about %}
+	<section id="promo" class="section-padding bg-gray">
+        <div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-12 mb-lg-0 mb-md-4 mb-sm-4 mb-4">
+					<div class="row">
+						<div class="col-12 text-left">
+							<div class="section-title-2">
+								<h3>Frequently <span>questions</span></h3>
+							</div>
+						</div>
+					</div>
+					<!-- end section title -->
+
+                    <!--Accordion Box-->
+                    <ul class="accordion-box">
+                        <li class="accordion block">
+                            <div class="acc-btn">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>How to buy & sell bitcoin?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="accordion block">
+                            <div class="acc-btn active">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>How can i transfer bitcoin?</div>
+                            <div class="acc-content current">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--Block-->
+                        <li class="accordion block">
+                            <div class="acc-btn">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>What about the trading with Bitfonix?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--Block-->
+                        <li class="accordion block">
+                            <div class="acc-btn">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>what about the investment planing?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--Block-->
+                        <li class="accordion block">
+                            <div class="acc-btn">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>How can i get the price idea?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--Block-->
+                        <li class="accordion block">
+                            <div class="acc-btn">
+                                <div class="icon-outer"><span class="icon icofont icofont-ui-press"></span></div>How can i contact with you?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--End Accordion Box-->
+				</div>
+				<!-- end col -->
+				<div class="col-lg-6 col-md-6 col-12">
+					<div class="row">
+						<div class="col-12 text-left">
+							<div class="section-title-2">
+								<h3>About <span>Us</span></h3>
+							</div>
+						</div>
+					</div>
+					<!-- end section title -->
+					<div class="image-style-1 mb-4">
+						<div class="image-style-wrapper">
+							<div class="image-one"></div>
+							<div class="image-two">
+								<img src="assets/img/bg/promobg1.jpg" class="img-fluid" alt="">
+							</div>
+						</div>
+					</div>
+					<div class="promo-content">
+						<h4>Who we are?</h4>
+						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illodrut inventore veritatis et quasi architecto beatae vitae dicta sunt. </p>
+						<a href="#" class="btn-style btn-filled mt-3">Read More <i class="icofont icofont-caret-right"></i></a>
+						<div class="signature-img float-lg-right float-md-right float-none mt-3"><img src="assets/img/bg/signature.png" class="img-fluid" alt=""></div>
+					</div>
+				</div>
+				<!-- end col -->
+			</div>
+        </div>
+        <!--- END CONTAINER -->
+    </section>
+
+{% endblock about %}

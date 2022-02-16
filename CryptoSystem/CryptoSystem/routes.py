@@ -10,14 +10,21 @@ from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
 
-@app.route('/')
-def index():
-    return render_template("index.html")
+
 
 """ ******************** Features  ******************** """
 
 chosen_currency = 'eur'
 days = 3
+
+cryptos = [{"rank": coin["market_cap_rank"], "image": coin["image"], "name": coin["name"],
+            "symbol": coin["symbol"], "price": coin["current_price"], "volume": coin["total_volume"]}
+           for coin in cg.get_coins_markets(vs_currency=chosen_currency)]
+
+
+@app.route('/')
+def index():
+    return render_template("index.html",currency = chosen_currency, cryptos = cryptos)
 
 @app.route('/peer2peer')
 def p2p():
@@ -26,10 +33,6 @@ def p2p():
 
 @app.route('/market')
 def market():
-
-    cryptos = [{"rank": coin["market_cap_rank"], "image": coin["image"], "name": coin["name"],
-                "symbol": coin["symbol"], "price": coin["current_price"], "volume": coin["total_volume"]}
-               for coin in cg.get_coins_markets(vs_currency=chosen_currency)]
     return render_template("market.html",currency = chosen_currency, cryptos = cryptos)
 
 @app.route('/coin/<string:crypto>')

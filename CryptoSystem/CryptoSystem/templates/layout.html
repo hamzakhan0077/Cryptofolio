@@ -53,17 +53,17 @@
 					<div class="col-lg-7 col-md-12 col-sm-12 col-12">
 						<div class="header-info-box">
                             <div class="header-info-icon">
-								<i class="fa fa-envelope-open"></i>
+<!--								<i class="fa fa-envelope-open"></i>-->
 							</div>
-							<p>Email Us</p>
-                            <h6>info@yoursite.com</h6>
+							<p>Start trading with us. Get Started to use our </p>
+                            <h6>Market Trade and Peer to Peer Trade options</h6>
                         </div>
 						<div class="header-info-box">
                             <div class="header-info-icon">
-								<i class="icofont icofont-phone"></i>
+<!--								<i class="icofont icofont-phone"></i>-->
 							</div>
-							<p>Call Us</p>
-                            <h6>123-456-0975</h6>
+							<p>Welcome</p>
+                            <h6>Beginner Friendly Crypto Platform</h6>
                         </div>
 						{% block getStarted %}  {% endblock %}
 					</div>
@@ -72,14 +72,45 @@
 			</div>
 		</div>
 		<!-- END LOGO AREA -->
+        <div class="sticky-menu">
+			<div class="mainmenu-area">
+				<div class="auto-container">
+					<div class="row">
+						<div class="col-lg-9 d-none d-lg-block d-md-none">
+							<nav class="navbar navbar-expand-lg justify-content-left">
+								<ul class="navbar-nav">
+									{% block trending %} {% endblock %}
+                                    {% block linksAfterLogin %} {% endblock %}
 
+									<li><a href=" " class="nav-link">Contact</a></li> <!-- class - nav-link -- is used for links--->
+								</ul>
+							</nav>
+						</div>
+						<div class="col-lg-3 d-none d-lg-block d-md-none text-right pr-0">
+							<form class="navbar-form">
+								<div class="form-group">
+									<input class="form-control" name="search" value="Search here..." type="text">
+									<button type="submit" class="btn"><i class="fa fa-search-plus"></i></button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END NAVIGATION AREA -->
 
 
     </header>
 
+{% block market %} {% endblock %}
+{% block coin %} {% endblock %}
 
 
 
+
+
+{% block about %} {% endblock %}
 {% block walletInfo %} {% endblock %}
 {% block logout %} {% endblock %}
 {% block userProfile %} {% endblock %}
@@ -90,9 +121,39 @@
 {% block postReview %} {% endblock %}
 {% block creditCardDetails %} {% endblock %}
 {% block peer2peer %} {% endblock %}
-{% block market %} {% endblock %}
-{% block coin %} {% endblock %}
 
+
+
+
+
+	<!-- Latest jQuery -->
+    <script src="{{ url_for('static', filename='script/jquery-2.2.4.min.js') }}"></script>
+    <!-- popper js -->
+    <script src="{{ url_for('static', filename='script/popper.min.js') }}"></script>
+    <!-- Latest compiled and minified Bootstrap -->
+    <script src="{{ url_for('static', filename='script/bootstrap.min.js') }}"></script>
+    <!-- meanmenu min js  -->
+    <script src="{{ url_for('static', filename='script/jquery.meanmenu.min.js') }}"></script>
+	<!-- Sticky JS -->
+    <script src="{{ url_for('static', filename='script/jquery.sticky.js') }}"></script>
+    <!-- owl-carousel min js  -->
+    <script src="{{ url_for('static', filename='script/owl.carousel.min.js') }}"></script>
+    <!-- jquery appear js  -->
+    <script src="{{ url_for('static', filename='script/jquery.appear.js') }}"></script>
+    <!-- countTo js -->
+    <script src="{{ url_for('static', filename='script/jquery.inview.min.js') }}"></script>
+    <!-- venobox js -->
+    <script src="{{ url_for('static', filename='script/venobox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='script/masonry.pkgd.min.js') }}"></script>
+    <!-- scroll to top js -->
+    <script src="{{ url_for('static', filename='script/scrolltopcontrol.js') }}"></script>
+    <!-- WOW - Reveal Animations When You Scroll -->
+    <script src="{{ url_for('static', filename='script/wow.min.js') }}"></script>
+    <!-- scripts js -->
+    <script src="{{ url_for('static', filename='script/scripts.js') }}"></script>
+	<!-- chart js -->
+    <script src="{{ url_for('static', filename='script/canvasjs.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='script/canvasjs.activeone.js') }}"></script>
 </body>
 
 
