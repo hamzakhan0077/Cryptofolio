@@ -25,8 +25,9 @@ class deal(FlaskForm):
     submit = SubmitField("Publish")
 
 
-class buy(FlaskForm): # When user is trying to buy a specific coin from the market -  they Click it thats where this form will be used
+class Buy(FlaskForm):
     amount = FloatField('Amount', validators=[DataRequired()])
+    amount_receive = FloatField('Price',validators=[DataRequired()])
     submit = SubmitField("Purchase")
 
 class sell(FlaskForm):# When user is trying to Sell a specific coin on the market -  they Click the coin thats where this form will be used

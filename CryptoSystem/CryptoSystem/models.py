@@ -48,7 +48,7 @@ class Asset(Model):
     wallet_encryption_key = db.Column(db.String(64), db.ForeignKey('wallet.encryption_key'), nullable=False, primary_key=True)
 
     def __repr__(self):
-        return f"Assets(Email = {self.wallet_holder_email}, Asset_Id= {self.asset_id})"
+        return f"Assets(Id = {self.asset_id}, amount= {self.asset_amount})"
 
     
 

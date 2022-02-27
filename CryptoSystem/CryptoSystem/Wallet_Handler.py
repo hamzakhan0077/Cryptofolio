@@ -1,6 +1,6 @@
 #from CryptoSystem.Asset import *
 
-from CryptoSystem.Asset import Asset_Handler
+from CryptoSystem.Asset_Handler import Asset_Handler
 
 """
 main goal,

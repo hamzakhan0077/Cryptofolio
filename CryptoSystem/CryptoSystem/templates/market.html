@@ -24,7 +24,44 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+			<script type="text/javascript">
+					baseUrl = "https://widgets.cryptocompare.com/";
+					var scripts = document.getElementsByTagName("script");
+					var embedder = scripts[ scripts.length - 1 ];
+					(function (){
+					var appName = encodeURIComponent(window.location.hostname);
+					if(appName==""){appName="local";}
+					var s = document.createElement("script");
+					s.type = "text/javascript";
+					s.async = true;
+					var theUrl = baseUrl+'serve/v1/coin/chartscroller?fsyms=BTC,ETH,XMR,LTC&tsyms=USD,EUR,CNY,GBP';
+					s.src = theUrl + ( theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;
+					embedder.parentNode.appendChild(s);
+					})();
+				</script>
+			</div>
 	<div class="row">
+		  <aside>
+            <script type="text/javascript">
+                baseUrl = "https://widgets.cryptocompare.com/";
+                var scripts = document.getElementsByTagName("script");
+                var embedder = scripts[ scripts.length - 1 ];
+                var cccTheme = {"Conversion":{"lineHeight":"50px"}};
+                (function (){
+                var appName = encodeURIComponent(window.location.hostname);
+                if(appName==""){appName="local";}
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.async = true;
+                var theUrl = baseUrl+'serve/v1/coin/multi?fsyms=BTC,ETH,DOGE,SHIB,XRP,LTC,ETC&tsyms=USD,EUR,CNY,GBP';
+                s.src = theUrl + ( theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;
+                embedder.parentNode.appendChild(s);
+                })();
+            </script>
+
+        </aside>
+
 				<div class="col-lg-7 col-md-7 col-12 pr-lg-5 pr-md-5 pr-sm-0 pr-0 mb-lg-0 mb-md-4 mb-sm-4 mb-4">
 					<div class="table-responsive">
 						<table class="bitland-table table table-striped table-hover">
@@ -42,10 +79,28 @@
                                      <tr>
                                         <td>{{ crypto["rank"] }}</td>
                                         <td><img src="{{ crypto['image'] }}" alt="{{ crypto['name'] }}" width="50" height="50"/></td>
-                                         <td>{{ crypto["name"] }} (<a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"] }}</a>)</td>
+                                         <td>{{ crypto["name"] }} (<a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"]|upper }}</a>)</td>
 <!--                                        <td><a href="/coin/{{ crypto['name'] }}">{{ crypto["symbol"] }}</a></td>-->
                                         <td>{{ crypto["price"] }}</td>
                                         <td>{{ crypto["volume"] }}</td>
+<!--										 <td width="50" height="50"><script type="text/javascript">-->
+<!--												baseUrl = "https://widgets.cryptocompare.com/";-->
+<!--												var scripts = document.getElementsByTagName("script");-->
+<!--												var embedder = scripts[ scripts.length - 1 ];-->
+<!--												(function (){-->
+<!--												var appName = encodeURIComponent(window.location.hostname);-->
+<!--												if(appName==""){appName="local";}-->
+<!--												var s = document.createElement("script");-->
+<!--												s.type = "text/javascript";-->
+<!--												s.async = true;-->
+<!--												var theCoin = {{ crypto['symbol']|tojson }}-->
+<!--												theCoin = theCoin.toUpperCase();-->
+<!--												var theUrl = baseUrl+'serve/v1/coin/header?fsym='+theCoin+'&tsyms=USD,EUR,CNY,GBP';-->
+<!--												s.src = theUrl + ( theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;-->
+<!--												embedder.parentNode.appendChild(s);-->
+<!--												})();-->
+<!--												</script>-->
+<!--										</td>-->
                                      </tr>
 
 

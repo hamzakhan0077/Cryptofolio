@@ -1,8 +1,8 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
 from flask import render_template,url_for,redirect, session,abort
-from CryptoSystem.Wallet import *
-from CryptoSystem.Asset import *
+from CryptoSystem.Wallet_Handler import *
+from CryptoSystem.Asset_Handler import *
 from CryptoSystem.models import *
 from hashlib import sha256
 from datetime import date
@@ -35,16 +35,43 @@ def p2p():
 def market():
     return render_template("market.html",currency = chosen_currency, cryptos = cryptos)
 
-@app.route('/coin/<string:crypto>')
+@app.route('/coin/<string:crypto>',methods=['GET', 'POST'])
 def coinCall(crypto):
-   crypto_details = [coin for coin in cg.get_coins_markets(vs_currency = chosen_currency) if coin["name"] == crypto ][0]
-   current_date = datetime.now().date()
-   current_unix_time = datetime_to_unix(current_date.year, current_date.month, current_date.day)
-   result = cg.get_coin_market_chart_range_by_id( id = crypto_details["id"], vs_currency = chosen_currency,
-       from_timestamp = str(int(current_unix_time) - (86400 * days)), to_timestamp = current_unix_time)["prices"]
-   print(result)
 
-   return render_template("coin.html", currency = chosen_currency, crypto_details = crypto_details )
+    form = Buy()
+    crypto_details = [coin for coin in cg.get_coins_markets(vs_currency=chosen_currency) if coin["name"] == crypto][0]
+    current_date = datetime.now().date()
+    current_unix_time = datetime_to_unix(current_date.year, current_date.month, current_date.day)
+    result = cg.get_coin_market_chart_range_by_id(id=crypto_details["id"], vs_currency=chosen_currency,
+                                                  from_timestamp=str(int(current_unix_time) - (86400 * days)),
+                                                  to_timestamp=current_unix_time)["prices"]
+    # print(result)
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        cc_form = credit_card()
+        data = {}
+        symbol = crypto_details['symbol'].upper()
+        data['amount'] = form.amount.data
+        data['amount_receive'] = form.amount_receive.data
+        data['asset'] = symbol
+        addToWallet(form.amount.data,symbol)
+
+        return render_template('payment.html',data = data,form = cc_form)
+
+
+    return render_template("coin.html",form=form, currency=chosen_currency, crypto_details=crypto_details)
+
+
+def addToWallet(amount_in_crypto,asset):
+    # make a block chain transaction here
+    the_user = User.query.filter_by(email=session['email']).first()
+    wallet_hash = the_user.wallet_hash
+    asset_add = Asset(asset_id=asset,asset_amount=amount_in_crypto,wallet_encryption_key=wallet_hash)
+    db.session.add(asset_add)
+    db.session.commit()
+
+
+
 
 
 """ ******************** Auth  ******************** """
