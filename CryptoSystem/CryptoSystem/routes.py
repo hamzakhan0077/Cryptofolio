@@ -66,10 +66,40 @@ def addToWallet(amount_in_crypto,asset):
     # make a block chain transaction here
     the_user = User.query.filter_by(email=session['email']).first()
     wallet_hash = the_user.wallet_hash
-    asset_add = Asset(asset_id=asset,asset_amount=amount_in_crypto,wallet_encryption_key=wallet_hash)
-    db.session.add(asset_add)
-    db.session.commit()
+    current_assets = Asset.query.filter_by(wallet_encryption_key=wallet_hash).all()
+    all_ids = [i.asset_id for i in current_assets]
+    if asset in all_ids:
+        for val in current_assets:
+            if val.asset_id == asset:
+                val.asset_amount+=amount_in_crypto
+                db.session.commit()
+                break
+    else:
+        asset_add = Asset(asset_id=asset,asset_amount=amount_in_crypto,wallet_encryption_key=wallet_hash)
+        db.session.add(asset_add)
+        db.session.commit()
 
+
+def asset_data(asset):
+    asset = asset.lower()
+    crypto_data = [coin for coin in cg.get_coins_markets(vs_currency=chosen_currency) if coin["symbol"] == asset][0]
+    return crypto_data
+
+@app.route('/wallet')
+def showWallet():
+    owned_cryptos = {}
+    overall_value = 0
+    the_user = User.query.filter_by(email =session['email']).first()
+    wallet_handler = Wallet_Handler(the_user.wallet_hash)
+
+    for asset in  Asset.query.filter_by(wallet_encryption_key=the_user.wallet_hash).all():
+        data = asset_data(asset.asset_id)
+        owned_cryptos[asset.asset_id.upper()] = {'amount':asset.asset_amount,'value': '${:,.2f}'.format(asset.asset_amount * data['current_price']),'data':data}
+        overall_value+= asset.asset_amount * data['current_price']
+    overall_value_formatted = '${:,.2f}'.format(overall_value)
+    # for val in all_assets:
+    #     wallet_handler.fillAssets(val[0],val[1])
+    return render_template("wallet.html", wallet=wallet_handler,owned_cryptos = owned_cryptos,overall_value=overall_value_formatted)
 
 
 
@@ -125,17 +155,6 @@ def logout():
 
 
 # """ ******************** Wallet Test ******************** """
-@app.route('/wallet')
-def showWallet():
-    the_user = User.query.filter_by(email =session['email']).first()
-    wallet_handler = Wallet_Handler(the_user.wallet_hash)
-    all_assets = []
-    for asset in  Asset.query.filter_by(wallet_encryption_key=the_user.wallet_hash).all():
-        all_assets.append((asset.asset_id,asset.asset_amount)) # I am adding as tuple as Market Val Api is not ready yet
-    for val in all_assets:
-        wallet_handler.fillAssets(val[0],val[1])
-    return render_template("wallet.html", wallet=wallet_handler)
-
 
 
 """ ******************** Forms ******************** """
