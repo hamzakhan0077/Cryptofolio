@@ -1,6 +1,6 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
-from flask import render_template,url_for,redirect, session,abort
+from flask import render_template, url_for, redirect, session, abort, send_from_directory
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
 from CryptoSystem.models import *
@@ -9,6 +9,7 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
+import sys
 
 
 
@@ -30,6 +31,11 @@ def index():
 def p2p():
     pass
 
+@app.route('/nft')
+def nft():
+    return render_template("nft.html")
+
+
 
 @app.route('/market')
 def market():
@@ -46,7 +52,7 @@ def coinCall(crypto):
                                                   from_timestamp=str(int(current_unix_time) - (86400 * days)),
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
-    print(form.validate_on_submit())
+    # print(form.validate_on_submit())
     if form.validate_on_submit():
         cc_form = credit_card()
         data = {}
@@ -154,7 +160,18 @@ def logout():
 
 
 
-# """ ******************** Wallet Test ******************** """
+""" ******************** Static Files ******************** """
+
+@app.route('/react-static/<path:filename>')
+def reactStatic(filename):
+    print (send_from_directory(app.config['REACT_COMPONENTS'],
+                               filename, as_attachment=True,
+                               mimetype='text/javascript'
+        ), file=sys.stderr)
+    return send_from_directory(app.config['REACT_COMPONENTS'],
+                               filename, as_attachment=True,
+                               mimetype='text/javascript'
+        )
 
 
 """ ******************** Forms ******************** """
