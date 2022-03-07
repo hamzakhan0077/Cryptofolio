@@ -1,6 +1,10 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
+<<<<<<< HEAD
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context
+=======
+from flask import render_template, url_for, redirect, session, abort, send_from_directory
+>>>>>>> 545650bf12aa724a34893a92442fcfe00c45f4f1
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
 from CryptoSystem.models import *
@@ -9,10 +13,14 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
+<<<<<<< HEAD
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
 
 """ ******************** Features  ******************** """
+=======
+import sys
+>>>>>>> 545650bf12aa724a34893a92442fcfe00c45f4f1
 
 
 
@@ -132,6 +140,11 @@ def deal_upload(asset):
 
 
 
+@app.route('/nft')
+def nft():
+    return render_template("nft.html")
+
+
 
 @app.route('/market')
 def market():
@@ -149,9 +162,12 @@ def coinCall(crypto): # come back here and fix the sell part
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
     # print(form.validate_on_submit())
+<<<<<<< HEAD
     symbol = crypto_details['symbol'].upper()
     data = {}
     data['asset'] = symbol
+=======
+>>>>>>> 545650bf12aa724a34893a92442fcfe00c45f4f1
     if form.validate_on_submit():
         cc_form = credit_card()
         data['amount'] = form.amount.data
@@ -285,7 +301,18 @@ def logout():
 
 
 
-# """ ******************** Wallet Test ******************** """
+""" ******************** Static Files ******************** """
+
+@app.route('/react-static/<path:filename>')
+def reactStatic(filename):
+    print (send_from_directory(app.config['REACT_COMPONENTS'],
+                               filename, as_attachment=True,
+                               mimetype='text/javascript'
+        ), file=sys.stderr)
+    return send_from_directory(app.config['REACT_COMPONENTS'],
+                               filename, as_attachment=True,
+                               mimetype='text/javascript'
+        )
 
 
 """ ******************** Forms ******************** """

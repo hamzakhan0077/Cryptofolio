@@ -2,10 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 from pycoingecko import CoinGeckoAPI
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CS3305-2022'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['REACT_COMPONENTS'] = os.path.join(os.path.dirname(os.getcwd()), 'CryptoSystem', 'CryptoSystem', 'react-static')
+
 db = SQLAlchemy(app)
 
 

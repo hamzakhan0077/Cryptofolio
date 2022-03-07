@@ -1,0 +1,66 @@
+/* all compontents */
+* {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+#pricetable {
+    margin:0 auto;
+}
+
+/* Portfolio */
+.portfolio{
+    flex-grow: 3;
+
+}
+
+/* List */
+.list {
+    
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+}
+
+.listitems {
+    width: fit-content;
+    display: flex;
+    column-gap: 24px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+/* ListItem */
+.listitem {
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 0.2em;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    flex: 0 0 auto;
+}
+.listitem .image {
+    flex: 1;
+    min-height: 0;
+    background-color: #e0e0e0;
+    width: 100%;
+    object-fit: contain;
+    align-self: center;
+}
+.listitem .owner, .listitem .nft_name {
+    flex: 0 0 auto;
+    padding-left: 0.5em;
+}
+.listitem .nft_name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.listitem .owner {
+    font-size: 1.2em;
+    margin-left: 0.15em;
+}
