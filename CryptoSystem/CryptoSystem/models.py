@@ -72,26 +72,19 @@ class Asset(Model):
 
 
 class Advertisement(Model):
-    """
-    Holds information pertaining to a specific advertisement
-    -identifier: unique key to identify the ad
-    -time created: the time it was created
-    -advertiser_offering: what the advertiser is trying to sell
-    -offering_amount: the amount they are offering
-    -advertiser_accepting: what the advertiser is willing to accept
-    -accepting_amount: what the advertiser wants to accept
-    """
-    asset_id = db.Column(db.Integer, primary_key=True)
-    time_created = db.Column(db.Date())
+    ad_id  = db.Column(db.Integer, nullable=False, primary_key=True,autoincrement=True)
+    email = db.Column(db.String(50), nullable=False)
+    asset_id = db.Column(db.String(20))
+    time_created = db.Column(db.String(30))
 
-    advertiser_offering = db.Column(db.String(10), db.ForeignKey('asset.asset_id'))
+    advertiser_offering = db.Column(db.String(10), nullable=False)
     offering_amount = db.Column(db.Float,nullable=False)
 
-    advertiser_accepting = db.Column(db.String(10), db.ForeignKey('asset.asset_id'))
-    accepting_amount = db.Column(db.Float,nullable=False)
+    advertiser_accepting = db.Column(db.String(10),nullable=False)
+    sell_price = db.Column(db.String(20),nullable=False) # string because it is formatted as currency
 
     def __repr__(self) -> str:
-        return f"Advertisement({self.asset_id} selling {self.advertiser_offering})"
+        return f"Advertisement(email = {self.email},asset_id = {self.asset_id}, time_created = {self.time_created}, advertiser_offering= {self.advertiser_offering}, offering_amount = {self.offering_amount} , advertiser_accepting = {self.advertiser_accepting},sell_price = {self.sell_price}"
 
 # class Comment(Model):
 #     identifier = db.Column(db.Integer, primary_key=True)

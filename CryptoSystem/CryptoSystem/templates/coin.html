@@ -135,18 +135,83 @@
 						</script>
 
 				</div>
+				<div class="section-padding">
+					<div class="contact-form-wrapper">
+						<div class="form-group col-lg-12 mb-0 text-center">
 
-			</div>
+						<form  action=" " id="sell" class="sellform" name="sell" method="POST" >
+							{{ sellForm.csrf_token }}
+							<div class="row">
+								<div class="form-group col-12 mb-3">
+									 {{ sellForm.amount.label }}
+									 {{ sellForm.amount }}
+								</div>
+								<div class="form-group col-12 mb-3">
+									  {{ sellForm.amount_receive.label }}
+									  {{ sellForm.amount_receive }}
+								</div>
+
+								<div class="form-group col-lg-12 mb-0 text-center">
+									<div class="actions">
+										 {{ sellForm.submit(class = "btn btn-contact-bg") }}
+
+
+									</div>
+								</div>
+							</div>
+
+						</form>
+							<script>
+							var inputHtml = '';
+
+
+							var amount = document.getElementById('amount');
+							var amount_receive = document.getElementById('amount_receive');
+
+							amount.onchange = function() {
+
+							amount = amount.value;
+							out = amount * {{ crypto_details["current_price"]|tojson }};
+							document.getElementById("amount_receive").value = out;
+
+
+							}
+							amount_receive.onchange = function() {
+							var out1 = 0;
+
+
+							amount_rec = amount_receive.value;
+							out1 = amount_rec / {{ crypto_details["current_price"]|tojson }};
+							document.getElementById("amount").value = out1;
+							}
+
+
+
+						</script>
+
+
+
+						</div>
+					</div>
+				</div>
 
 	</div>
 
 	</div>
 	</div>
 
+	<div class="single-about-title">
 
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for message in messages %}
+					<h5>{{ message }}</h5>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+	</div>
+
+	</div>
 </section>
-
-
-
 
 {% endblock coin %}

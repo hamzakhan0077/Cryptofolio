@@ -12,20 +12,60 @@
 {% endblock %}
 
 {% block userProfile %}
+<section id="contactpage" class="section-padding">
+        <div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title">
+						<h5>Your Personal Profile </h5>
+						<h3> <span>Profile</span> Set up</h3>
+					</div>
+				</div>
+			</div>
 
-    {{ form.name.label }}
-    {{ form.name }}
+        </div>
+    <div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title-2">
+						<h3>This Profile can be view by a another peer in p2p</h3>
+					</div>
+				</div>
+				<div class="col-lg-7 mx-auto">
+					<div class="contact-form-wrapper">
+						<div class="contact-form">
+							<form id="contact-form" class="form" name="enq" method="POST" action="http://skullysmusic.com/tm/ft/bt/bitfonix-preview3/Bitfonix/form-process.php">
+								    {{ form.csrf_token }}
+                                <div class="row">
+									<div class="form-group col-12 mb-3">
+										 {{ form.name.label }}
+                                         {{ form.name(class = "form-control") }}
+									</div>
+									<div class="form-group col-12 mb-3">
+										{{ form.experience.label }}
+                                        {{ form.experience}}
+									</div>
+									<div class="form-group col-12 mb-3">
+										   {{ form.bio.label }}
+                                            {{ form.bio(class = "form-control") }}
+									</div>
+									<div class="form-group col-lg-12 mb-0 text-center">
+										<div class="actions">
+											    {{ form.submit }}
+											<img src="assets/img/ajax-loader.gif" id="loader" style="display:none" alt="loading" width="16" height="16">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
 
-    {{ form.experience.label }}
-    {{ form.experience }}
+    </section>
 
-    {{ form.fav_crypto.label }}
-    {{ form.fav_crypto }}
 
-    {{ form.bio.label }}
-    {{ form.bio }}
 
-    {{ form.submit }}
 
 
 

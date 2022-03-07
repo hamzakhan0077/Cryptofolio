@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+
+{% block linksAfterLogin %}
+<li><a href="{{ url_for('market') }}" class="nav-link">Market Trade</a></li>
+<li><a href=" " class="nav-link">Peer to Peer Trade</a></li>
+<li><a href="{{ url_for('showWallet') }}" class="nav-link">Wallet</a></li>
+<li><a href="{{ url_for('userProfile') }}" class="nav-link">View Profile</a></li>
+<li><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+
+
+{% endblock %}
+
+
+{% block tradeDeal %}
+
+<section id="page-banner">
+		<div class="single-page-title-area overlay" data-background="{{ url_for('static', filename='images/bin/slide1.jpg') }}">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<div class="single-page-title">
+							{% if transaction %}
+							<h2>Your deal has been successful</h2>
+							{% endif %}
+							<p>Details of your trade</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="single-page-title-area-bottom">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item active">Contact Us</li>
+						</ol>
+					</div>
+				</div>
+				<!-- end row-->
+			</div>
+		</div>
+	</section>
+
+
+<section class="section-padding">
+    <div class="row">
+        <div class="col-12 text-center">
+            {% if transaction %}
+			<div class="col-lg-7 mx-auto">
+					<div class="col-lg-7 col-md-7 col-12 pr-lg-5 pr-md-5 pr-sm-0 pr-0 mb-lg-0 mb-md-4 mb-sm-4 mb-4">
+					<div class="table-responsive">
+						<table class="bitland-table table table-striped table-hover">
+							<thead>
+								<tr>
+									<th scope="col">Advertiser</th>
+                                    <th scope="col">Trading Asset</th>
+									<th scope="col">Amount</th>
+									<th scope="col">Price in USD</th>
+									<th scope="col">Accepted Asset</th>
+									<th scope="col">Amount paid</th>
+									<th scope="col">Status </th>
+								</tr>
+							</thead>
+							<tbody>
+                                     <tr>
+                                        <td>{{ ad.email }}</td>
+                                        <td><img src="{{ coin_dict[ad.advertiser_offering]['image'] }}" alt="{{ coin_dict[ad.advertiser_offering]['name'] }}" width="50" height="50"/>(<a href="/coin/{{ coin_dict[ad.advertiser_offering]['name'] }}">{{ ad.advertiser_offering|upper }}</a>)</td>
+                                         <td>{{ ad.offering_amount }}</td>
+                                        <td>{{ ad.sell_price }}</td>
+                                        <td><img src="{{ coin_dict[ad.advertiser_accepting]['image'] }}" alt="{{ coin_dict[ad.advertiser_accepting]['name'] }}" width="50" height="50"/>(<a href="/coin/{{ coin_dict[ad.advertiser_accepting]['name'] }}">{{ ad.advertiser_accepting|upper }}</a>)</td>
+										<td>Succesfully paid {{ transaction['paid'] }} {{ ad.advertiser_accepting }} </td>
+										 <td>Successful<td>
+                                     </tr>
+							</tbody>
+						</table>
+					</div>
+                </div>
+				{% endif %}
+
+
+
+
+
+				<div class="single-about-title">
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							{% for message in messages %}
+								<h5 style = "color:red">{{ message }}</h5>
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
+				</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock tradeDeal %}

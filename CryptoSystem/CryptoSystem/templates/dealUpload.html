@@ -1,18 +1,108 @@
 {% extends "layout.html" %}
+{% block linksAfterLogin %}
+<li><a href="{{ url_for('market') }}" class="nav-link">Market Trade</a></li>
+<li><a href="{{ url_for('p2p') }}" class="nav-link">Peer to Peer Trade</a></li>
+<li><a href="{{ url_for('showWallet') }}" class="nav-link">Wallet</a></li>
+<li><a href="{{ url_for('userProfile') }}" class="nav-link">View Profile</a></li>
+<li><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
 
+
+{% endblock %}
 
 {% block dealUpload %}
+<section id="contactpage" class="section-padding">
+        <div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title">
+						<h5>Sell your assets to another peer</h5>
+						<h3>Upload your <span>Trade deal</span></h3>
+					</div>
+				</div>
+			</div>
 
-    {{ form.trade_currency.label }}
-    {{ form.trade_currency }}
+        </div>
+    <div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title-2">
+						<h3>P2p Deal Upload</h3>
+					</div>
+				</div>
+				<div class="col-lg-7 mx-auto">
+					<div class="contact-form-wrapper">
+						<div class="contact-form">
+							<form id="contact-form" class="form" name="enq" method="POST" action="">
+								    {{ form.csrf_token }}
+                                <div class="row">
+									<div class="form-group col-12 mb-3">
+										{{ form.trade_currency.label }}
+                                        {{ form.trade_currency(class = "form-control") }}
+									</div>
+									<div class="form-group col-12 mb-3">
+										{{ form.amount.label }}
+                                        {{ form.amount(class = "form-control") }}
+									</div>
+									<div class="form-group col-12 mb-3">
+										{{ form.profit_percent.label }}
+                                        {{ form.profit_percent(class = "form-control") }}
+									</div>
+									<div class="form-group col-12 mb-3">
+										{{ form.asset_sell_price.label }}
+                                        {{ form.asset_sell_price(class = "form-control") }}
+									</div>
 
-    {{ form.accepted_currency.label }}
-    {{ form.accepted_currency }}
+									<div class="form-group col-12 mb-3">
+										{{ form.accepted_currency.label }}
+                                        {{ form.accepted_currency(class = "form-control") }}
+									</div>
+									<div class="form-group col-lg-12 mb-0 text-center">
+										<div class="actions">
+											    {{ form.submit }}
 
-    {{ form.amount.label }}
-    {{ form.amount }}
+										</div>
+										<div class="single-about-title">
+											{% with messages = get_flashed_messages() %}
+												{% if messages %}
+													{% for message in messages %}
+														<h5 style = "color:red">{{ message }}</h5>
+													{% endfor %}
+												{% endif %}
+											{% endwith %}
+										</div>
 
-    {{ form.submit }}
+
+									</div>
+								</div>
+							</form>
+							<script>
+							document.getElementById('trade_currency').value = {{ offering_asset|tojson|upper }};
+							document.getElementById('amount').value = 0;
+							var profit_percent = document.getElementById('profit_percent');
+							var currency_format = new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD'});
+
+							profit_percent.onchange = function() {
+							var asset_value = document.getElementById('amount').value * {{ market_price|tojson }};
+							var value_after_profit = currency_format.format((asset_value/100 * profit_percent.value) + asset_value);
+							document.getElementById('asset_sell_price').value = value_after_profit ;
+
+
+
+
+							}
+
+
+
+
+
+
+						</script>
+						</div>
+					</div>
+				</div>
+
+			</div>
+    </section>
+
 
 
 

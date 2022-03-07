@@ -77,6 +77,9 @@
 									<th scope="col" width="10px">Name</th>
 									<th scope="col" width="10px">Amount</th>
 									<th scope="col" >Value(USD)</th>
+									<th scope="col" >Trade in P2P</th>
+
+
 								</tr>
 							</thead>
 							<tbody>
@@ -87,6 +90,11 @@
 
                                         <td>{{ owned_cryptos[crypto]['amount'] }}</td>
                                         <td>{{ owned_cryptos[crypto]['value'] }}</td>
+
+										 {% set asset_symbol = owned_cryptos[crypto]['data']["symbol"] %}
+										 <td class = "btn-style btn-filled"><a style="color:black" href="/dealUpload/{{ asset_symbol }}">Trade</a>  </td>
+
+										 <td class = "btn-style btn-filled"><a style="color:black" href="/transfer/{{ asset_symbol }}"> Transfer</a> </td>
 
                                      </tr>
 
