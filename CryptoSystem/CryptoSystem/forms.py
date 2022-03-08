@@ -45,8 +45,8 @@ class Buy(FlaskForm):
     submit = SubmitField("Purchase")
 
 class Sell(FlaskForm):# When user is trying to Sell a specific coin on the market -  they Click the coin thats where this form will be used
-    amount = FloatField('Amount', validators=[DataRequired()])
-    amount_receive = FloatField('In USD', validators=[DataRequired()])
+    sell_amount = FloatField('Amount', validators=[DataRequired()])
+    sell_amount_receive = FloatField('In USD', validators=[DataRequired()])
     submit = SubmitField("Sell")
 
 class quick_buy_market(FlaskForm):

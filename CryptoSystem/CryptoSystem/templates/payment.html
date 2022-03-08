@@ -18,8 +18,10 @@
 				<div class="row">
 					<div class="col-12 text-center">
 						<div class="single-page-title">
-							<h2>NO REAL DETAILS REQUIRED.{{ data['amount'] }} {{ data['asset'] }} HAS BEEN ADDED TO YOUR WALLET</h2>
-							<p>This solely for project purpose. </p>
+							<h2>Transaction Summary</h2>
+                            <h4 style = "color:white">{{ data['amount'] }} {{ data['asset'] }} HAS BEEN ADDED TO YOUR WALLET </h4>
+							<small><p> No Real transaction occurs,  </p></small>
+                            <small><p> Project purposes only</p></small>
 						</div>
 					</div>
 				</div>
@@ -51,12 +53,12 @@
                         <div class="row">
                             <div class="form-group col-12 mb-3">
                                     {{ form.card_holder_name.label }}
-                                    {{ form.card_holder_name }}
+                                    {{ form.card_holder_name(style = "border: 1px solid Black") }}
 
                             </div>
                             <div class="form-group col-12 mb-3">
                                 {{ form.card_number.label }}
-                                {{ form.card_number }}
+                                {{ form.card_number(style = "border: 1px solid Black") }}
                             </div>
                             <div class="form-group col-12 mb-3">
                                  {{ form.month.label }}
@@ -68,7 +70,7 @@
                             </div>
                             <div class="form-group col-12 mb-3">
                                 {{ form.cvv.label }}
-                                {{ form.cvv }}
+                                {{ form.cvv(style = "border: 1px solid Black") }}
                             </div>
                             <div class="form-group col-lg-12 mb-0 text-center">
                                 <div class="actions">

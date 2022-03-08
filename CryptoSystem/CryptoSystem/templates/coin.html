@@ -89,11 +89,11 @@
 							<div class="row">
 								<div class="form-group col-12 mb-3">
 									 {{ form.amount.label }}
-									 {{ form.amount }}
+									 {{ form.amount(style = "border: 1px solid Black") }}
 								</div>
 								<div class="form-group col-12 mb-3">
 									  {{ form.amount_receive.label }}
-									  {{ form.amount_receive }}
+									  {{ form.amount_receive(style = "border: 1px solid Black") }}
 								</div>
 
 								<div class="form-group col-lg-12 mb-0 text-center">
@@ -135,65 +135,65 @@
 						</script>
 
 				</div>
-				<div class="section-padding">
-					<div class="contact-form-wrapper">
-						<div class="form-group col-lg-12 mb-0 text-center">
+<!--				<div class="section-padding">-->
+<!--					<div class="contact-form-wrapper">-->
+<!--						<div class="form-group col-lg-12 mb-0 text-center">-->
 
-						<form  action=" " id="sell" class="sellform" name="sell" method="POST" >
-							{{ sellForm.csrf_token }}
-							<div class="row">
-								<div class="form-group col-12 mb-3">
-									 {{ sellForm.amount.label }}
-									 {{ sellForm.amount }}
-								</div>
-								<div class="form-group col-12 mb-3">
-									  {{ sellForm.amount_receive.label }}
-									  {{ sellForm.amount_receive }}
-								</div>
+<!--						<form  action=" " id="sell" class="sellform" name="sell" method="POST" >-->
+<!--							{{ sellForm.csrf_token }}-->
+<!--							<div class="row">-->
+<!--								<div class="form-group col-12 mb-3">-->
+<!--									 {{ sellForm.sell_amount.label }}-->
+<!--									 {{ sellForm.sell_amount(style = "border: 1px solid Black") }}-->
+<!--								</div>-->
+<!--								<div class="form-group col-12 mb-3">-->
+<!--									  {{ sellForm.sell_amount_receive.label }}-->
+<!--									  {{ sellForm.sell_amount_receive(style = "border: 1px solid Black") }}-->
+<!--								</div>-->
 
-								<div class="form-group col-lg-12 mb-0 text-center">
-									<div class="actions">
-										 {{ sellForm.submit(class = "btn btn-contact-bg") }}
-
-
-									</div>
-								</div>
-							</div>
-
-						</form>
-							<script>
-							var inputHtml = '';
+<!--								<div class="form-group col-lg-12 mb-0 text-center">-->
+<!--									<div class="actions">-->
+<!--										 {{ sellForm.submit(class = "btn btn-contact-bg") }}-->
 
 
-							var amount = document.getElementById('amount');
-							var amount_receive = document.getElementById('amount_receive');
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
 
-							amount.onchange = function() {
-
-							amount = amount.value;
-							out = amount * {{ crypto_details["current_price"]|tojson }};
-							document.getElementById("amount_receive").value = out;
-
-
-							}
-							amount_receive.onchange = function() {
-							var out1 = 0;
+<!--						</form>-->
+<!--							<script>-->
+<!--							var theHtml = '';-->
 
 
-							amount_rec = amount_receive.value;
-							out1 = amount_rec / {{ crypto_details["current_price"]|tojson }};
-							document.getElementById("amount").value = out1;
-							}
+<!--							var sell_amount = document.getElementById('sell_amount');-->
+<!--							var sell_amount_receive = document.getElementById('sell_amount_receive');-->
+
+<!--							sell_amount.onchange = function() {-->
+
+<!--							sell_amount = sell_amount.value;-->
+<!--							out = sell_amount * {{ crypto_details["current_price"]|tojson }};-->
+<!--							document.getElementById("sell_amount_receive").value = out;-->
 
 
+<!--							}-->
+<!--							sell_amount_receive.onchange = function() {-->
+<!--							var output1 = 0;-->
 
-						</script>
+
+<!--							sell_amount_rec = sell_amount_receive.value;-->
+<!--							output1 = sell_amount_rec / {{ crypto_details["current_price"]|tojson }};-->
+<!--							document.getElementById("sell_amount").value = output1;-->
+<!--							}-->
 
 
 
-						</div>
-					</div>
-				</div>
+<!--						</script>-->
+
+
+
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
 
 	</div>
 

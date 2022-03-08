@@ -266,19 +266,18 @@ def addToWallet(amount_in_crypto,asset):
         db.session.add(asset_add)
         db.session.commit()
 
-def removeFromWallet(amount_of_asset,target_asset):
-    info = user_info_dict()
-    if asset in all_ids:
-
-        for tar in info['current_assets']:
-            if tar.asset_id == target_asset:
-                tar.asset_amount -= amount_of_asset
-                db.session.commit()
-                addToWallet(amount_to_convert * data['current_price'],'usdt')
-                db.session.commit()
-                break
-
-    
+# def removeFromWallet(amount_of_asset,target_asset):
+#     info = user_info_dict()
+#     if user_asset in info['current_assets']:
+#         for tar in info['current_assets']:
+#             if tar.asset_id == target_asset:
+#                 tar.asset_amount -= amount_of_asset
+#                 db.session.commit()
+#                 addToWallet(amount_to_convert * data['current_price'],'usdt')
+#                 db.session.commit()
+#                 break
+#
+#
     
     
     # data = asset_data(asset)
