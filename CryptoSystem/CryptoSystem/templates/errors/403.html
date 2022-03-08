@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block linksAfterLogin %}
+<li><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
+
+{% endblock %}
+
+
+{% block errors %}
+
+<section id="contactpage" class="section-padding">
+        <div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title">
+						<h5>403 </h5>
+					</div>
+				</div>
+			</div>
+
+        </div>
+    <div class="row">
+				<div class="col-12 text-center">
+					<div class="section-title-2">
+						<h3>OOPS! (403) Sorry you dont have permission to access this</h3>
+					</div>
+				</div>
+
+
+    </div>
+
+</section>
+
+{% endblock errors %}

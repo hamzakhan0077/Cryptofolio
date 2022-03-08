@@ -1,6 +1,13 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
+<<<<<<< HEAD
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context, send_from_directory
+=======
+
+from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context,g,request
+
+from flask import send_from_directory
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
 
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
@@ -10,6 +17,12 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
+<<<<<<< HEAD
+=======
+from functools import wraps
+
+
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
 
@@ -25,6 +38,16 @@ days = 3
 cryptos = [{"rank": coin["market_cap_rank"], "image": coin["image"], "name": coin["name"],
             "symbol": coin["symbol"], "price": coin["current_price"], "volume": coin["total_volume"]}
            for coin in cg.get_coins_markets(vs_currency=chosen_currency)]
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.keys():
+            return redirect(url_for('index', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 def coin_info_dict():
     coin_dict = {}
@@ -48,6 +71,7 @@ def index():
     return render_template("index.html",currency = chosen_currency, cryptos = cryptos)
 
 @app.route('/peer2peer')
+@login_required
 def p2p():
     coin_dict = coin_info_dict()
     all_ads = Advertisement.query.all() # List of Advertisement Model Objects
@@ -55,6 +79,7 @@ def p2p():
 
 
 @app.route('/tradeDeal/<int:ad_id>')
+@login_required
 def trade_deal(ad_id): # This method makes the deal happen between two peers
 
     ad = Advertisement.query.filter_by(ad_id = ad_id).first()
@@ -91,13 +116,67 @@ def trade_deal(ad_id): # This method makes the deal happen between two peers
 
     return render_template("tradeDeal.html")
 
-def transfer_assets(wallet,asset_id,asset_amount):pass
+#Healper method that makes  transfer happen
+def transferring(wallet_hash,asset_to_transfer,Amount):
+    asset_to_transfer = asset_to_transfer.upper()
+    current_user_dict = user_info_dict()
+    all_target_user_assets = Asset.query.filter_by(wallet_encryption_key = wallet_hash).all()
+
+    if asset_to_transfer in [i.asset_id for i in all_target_user_assets ]:
+        for target_asset in all_target_user_assets:
+            if target_asset.asset_id == asset_to_transfer:
+                target_asset.asset_amount += Amount
+
+                db.session.commit()
+
+
+                break
+    else:
+        new_asset = Asset(asset_id = asset_to_transfer,asset_amount=Amount,wallet_encryption_key = wallet_hash)
+        db.session.add(new_asset)
+        db.session.commit()
+
+    return True
+
+@app.route('/transfer/<string:asset>',methods=['GET', 'POST'])
+@login_required
+def transfer_assets(asset):
+    the_asset = asset
+    form = transfer()
+    user_info = user_info_dict()
+    if form.validate_on_submit():
+        for owned_asset in user_info['current_assets']:
+            if owned_asset.asset_id == asset.upper():
+                if owned_asset.asset_amount >= form.amount.data: # if this user has sufficient amount to send
+                    # check to see if this user is actually registered with Cryptofolio
+                    if Wallet.query.filter_by(encryption_key = form.receiver_wallet.data).first():
+                        owned_asset.asset_amount-=form.amount.data
+                        db.session.commit()
+                        transferring(form.receiver_wallet.data, asset, form.amount.data)
+                        flash(f"You have successfully transferred {form.amount.data} {asset} to ")
+                        flash(f"{form.receiver_wallet.data}")
+
+                        break
+                    else:
+                        flash("User must be registered with Cryptofolio, Please check the wallet hash and try again")
+                        break
+                else:
+                    flash(f"You don\'t have sufficient {asset} please purchase from the Market")
+                    break
+            # else:
+            #     flash(f"Sorry you cant trade an asset that you dont own")
+            #     break
+
+
+
+    return render_template("transfer.html",form=form,the_asset = the_asset)
 
 
 
 
 
 @app.route('/dealUpload/<string:asset>',methods=['GET', 'POST'])
+@login_required
 def deal_upload(asset):
     checker = True
     form = deal()
@@ -135,16 +214,19 @@ def deal_upload(asset):
 
 
 @app.route('/nft')
+@login_required
 def nft():
     return render_template("nft.html")
 
 
 
 @app.route('/market')
+@login_required
 def market():
     return render_template("market.html",currency = chosen_currency, cryptos = cryptos)
 
 @app.route('/coin/<string:crypto>',methods=['GET', 'POST'])
+@login_required
 def coinCall(crypto): # come back here and fix the sell part
     sellForm = Sell()
     form = Buy()
@@ -156,6 +238,14 @@ def coinCall(crypto): # come back here and fix the sell part
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
     # print(form.validate_on_submit())
+<<<<<<< HEAD
+=======
+
+    symbol = crypto_details['symbol'].upper()
+    data = {}
+    data['asset'] = symbol
+
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
     if form.validate_on_submit():
         cc_form = credit_card()
         data['amount'] = form.amount.data
@@ -193,6 +283,7 @@ def removeFromWallet(amount_of_asset,target_asset):
         for tar in info['current_assets']:
             if tar.asset_id == target_asset:
                 tar.asset_amount -= amount_of_asset
+                db.session.commit()
                 addToWallet(amount_to_convert * data['current_price'],'usdt')
                 db.session.commit()
                 break
@@ -217,6 +308,7 @@ def asset_data(asset):
     return crypto_data
 
 @app.route('/wallet')
+@login_required
 def showWallet():
     owned_cryptos = {}
     overall_value = 0
@@ -235,7 +327,31 @@ def showWallet():
 
 
 
+@app.route('/userProfile',methods=['GET', 'POST'])
+@login_required
+def userProfile():
+    form = user_profile()
+    user_info = user_info_dict()
+    user_email =  user_info['the_user'].email
+    # print(form.validate_on_submit(),"****")
+    # print(f, "****")
 
+    if form.validate_on_submit():
+        user_info['the_user'].bio = form.bio.data
+        db.session.commit()
+        user_info['the_user'].fav_crypto = form.fav_crypto.data
+        db.session.commit()
+        return redirect(f'/viewUserProfile/{user_email}')
+
+
+    return render_template("userProfile.html", form=form)
+
+@app.route('/viewUserProfile/<string:email>',methods=['GET', 'POST'])
+@login_required
+def viewUserProfile(email):
+    coin_dict = coin_info_dict()
+    user = User.query.filter_by(email=email).first()
+    return render_template("userProfileView.html",user=user,coin_dict = coin_dict)
 
 
 
@@ -277,6 +393,7 @@ def authorize():
 
 
 @app.route('/logout')
+@login_required
 def logout():
 
     for key in list(session.keys()):
@@ -302,40 +419,35 @@ def reactStatic(filename):
         )
 
 
-""" ******************** Forms ******************** """
-
-@app.route('/userProfile',methods=['GET', 'POST'])
-def userProfile():
-    form = user_profile()
-    return render_template("userProfile.html", form=form)
+""" ******************** MISC ******************** """
 
 
 
-@app.route('/buy',methods=['GET', 'POST'])# this just for testing in reality those form will be embedded in coin section
-def sell_form():
-    form = buy()
-    return render_template("buyFormTest.html", form=form)
-
-
-@app.route('/sell',methods=['GET', 'POST']) # this just for testing in reality those form will be embedded in coin section
-def buy_form():
-    form = sell()
-    return render_template("sellFormTest.html", form=form)
-
-
+#
+# @app.route('/buy',methods=['GET', 'POST'])# this just for testing in reality those form will be embedded in coin section
+# def sell_form():
+#     form = buy()
+#     return render_template("buyFormTest.html", form=form)
+#
+#
+# @app.route('/sell',methods=['GET', 'POST']) # this just for testing in reality those form will be embedded in coin section
+# def buy_form():
+#     form = sell()
+#     return render_template("sellFormTest.html", form=form)
+#
+#
 
 @app.route('/quickBuy',methods=['GET', 'POST'])
 def quick_buy():
-    form = quick_buy_market()
-    return render_template("quickBuy.html", form=form)
+    return redirect('market')
 
 
-
-@app.route('/postReview',methods=['GET', 'POST'])
-def post_review():
-    form = review()
-    return render_template("postReview.html", form=form)
-
+#
+# @app.route('/postReview',methods=['GET', 'POST'])
+# def post_review():
+#     form = review()
+#     return render_template("postReview.html", form=form)
+#
 
 @app.route('/payment',methods=['GET', 'POST'])
 def card():

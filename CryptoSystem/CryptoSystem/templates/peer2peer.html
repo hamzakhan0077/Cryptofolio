@@ -78,7 +78,8 @@
 							<tbody>
                                  {% for ad in all_ads %}
                                      <tr>
-                                        <td>{{ ad.email }}</td>
+										 <td class = "btn-style btn-filled"><a style="color:black" href="/viewUserProfile/{{ ad.email }}"> {{ ad.email }}</a> </td>
+
 
                                         <td><img src="{{ coin_dict[ad.advertiser_offering]['image'] }}" alt="{{ coin_dict[ad.advertiser_offering]['name'] }}" width="50" height="50"/>(<a href="/coin/{{ coin_dict[ad.advertiser_offering]['name'] }}">{{ ad.advertiser_offering|upper }}</a>)</td>
                                          <td>{{ ad.offering_amount }}</td>
