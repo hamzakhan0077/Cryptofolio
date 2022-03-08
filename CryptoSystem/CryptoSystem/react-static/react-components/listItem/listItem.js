@@ -3,6 +3,13 @@ const ListItem = props => {
   React.useEffect(function () {
     props.passRefUpward(listItem, props.id);
   });
+
+  const clicked = () => {
+    console.log("clicked");
+    console.log(props.url);
+    window.location.href = props.url;
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "listitem",
     ref: listItem // style={{
@@ -17,19 +24,17 @@ const ListItem = props => {
     className: "image",
     src: props.img,
     alt: `nft for ${props.nft_name}`,
-    onDragStart: e => e.preventDefault()
-  }), /*#__PURE__*/React.createElement("span", {
-    className: "nft_name"
-  }, props.nft_name), /*#__PURE__*/React.createElement("span", {
-    className: "owner"
-  }, props.owner), /*#__PURE__*/React.createElement("div", {
-    className: "buy"
-  }, /*#__PURE__*/React.createElement("a", {
-    className: "button",
-    href: "buy"
-  }, "Buy "), /*#__PURE__*/React.createElement("span", {
+    onDragStart: e => e.preventDefault(),
+    onDoubleClick: clicked
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "bottom"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "collection_name"
+  }, props.collection_name), /*#__PURE__*/React.createElement("div", {
     className: "price"
-  }, props.price)));
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "count"
+  }, props.count), /*#__PURE__*/React.createElement("span", null, " NFTs"))));
 };
 
 export default ListItem;

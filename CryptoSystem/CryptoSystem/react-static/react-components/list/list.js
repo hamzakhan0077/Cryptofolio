@@ -15,13 +15,25 @@ const List = props => {
     });
 
     if (newPos < -getEndOfList() && newPos < position) {
-      // console.log("newPos", newPos)
-      // console.log("getEndoflist", getEndOfList())
       return;
     } else if (newPos > 0) {
       setPosition(0);
     } else if (position !== newPos) {
       setPosition(newPos);
+    }
+  };
+
+  const handleMouseMove = e => {
+    e.preventDefault();
+
+    if (e.buttons === 1) {
+      if (isBeingDragged === false) {
+        whenDragStart(e.clientX);
+      } else {
+        whenDrag(e.clientX);
+      }
+    } else if (e.buttons === 0 && isBeingDragged === true) {
+      whenDragStop();
     }
   };
 
@@ -40,20 +52,6 @@ const List = props => {
   const whenDragStop = () => {
     setIsBeingDragged(false);
     moveToGrid(position);
-  };
-
-  const handleMouseMove = e => {
-    e.preventDefault();
-
-    if (e.buttons === 1) {
-      if (isBeingDragged === false) {
-        whenDragStart(e.clientX);
-      } else {
-        whenDrag(e.clientX);
-      }
-    } else if (e.buttons === 0 && isBeingDragged === true) {
-      whenDragStop();
-    }
   };
 
   const getEndOfList = () => {
