@@ -19,15 +19,19 @@ const Portfolio = () => {
     // </List>
     let nftCollections = [
         {
+            key:0,
             name:"monkeys",
             items:[
                 {
+                    key:0,
                     name:'the nft name',
                     owner:"the owner name",
-                    imageUrl:'https://picsum.photos/200/200'
-                }
+                    imageUrl:'https://picsum.photos/200/200',
+                    price:"€32"
+                },
+
             ],
-        }
+        },
     ]
 
     const getNFTs = (nftCollection) => {
@@ -36,15 +40,19 @@ const Portfolio = () => {
                 img = {nft.imageUrl}
                 nft_name = {nft.name}
                 owner = {nft.owner}
+                price = {nft.price}
+                id = {nft.key}
+                key = {nft.key}
                 />
         })
     }
 
     const list = nftCollections.map(function (nftCollection) {
-        return <List title={nftCollection.items}
+        return <List title={nftCollection.name}
             unSelectedSize={240}
             selectedSize={300}
-            columnGapPx={24}>
+            columnGapPx={24}
+            key={nftCollection.key}>
                 {getNFTs(nftCollection)}
         </List>
     })
@@ -56,4 +64,3 @@ const Portfolio = () => {
     )
 }
 ReactDOM.render(React.createElement(Portfolio), document.querySelector("#pricetable"))
-// export default Portfolio

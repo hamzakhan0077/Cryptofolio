@@ -1,17 +1,20 @@
 const ListItem = (props) => {
-    let size;
+    const listItem=React.useRef()
 
-    if(props.selected) {
-        size = props.selectedSize
-    } else {
-        size = props.unSelectedSize
-    }
+    React.useEffect(function(){
+        props.passRefUpward(listItem, props.id)
+    })
+
     return (
         <div className="listitem"
-            style={{
-                width:`${size}px`, 
-                height:`${size}px`
-                }}
+            ref={listItem}
+            // style={{
+            //     width:`${props.unSelectedSize}px`, 
+            //     height:`${props.unSelectedSize}px`
+            //     }}
+            styel={{
+                width:"fit-content"
+            }}
         >
 
             <img className="image" 
@@ -22,6 +25,11 @@ const ListItem = (props) => {
 
             <span className="nft_name">{props.nft_name}</span>
             <span className="owner">{props.owner}</span>
+            <div className="buy">
+                <a className="button" href="buy">Buy </a>                
+                <span className="price">{props.price}</span>
+            </div>
+
         </div>
     )
 }
