@@ -5,6 +5,12 @@ const ListItem = (props) => {
         props.passRefUpward(listItem, props.id)
     })
 
+    const clicked = () => {
+        console.log("clicked")
+        console.log(props.url)
+        window.location.href = props.url
+    }
+
     return (
         <div className="listitem"
             ref={listItem}
@@ -21,6 +27,7 @@ const ListItem = (props) => {
                 src={props.img} 
                 alt={`nft for ${props.nft_name}`}
                 onDragStart={(e) => e.preventDefault()}
+                onDoubleClick={clicked}
             /> 
             <div className="bottom">
                 <span className="collection_name">{props.collection_name}</span>

@@ -12,23 +12,34 @@
 /* Portfolio */
 .portfolio{
     flex-grow: 3;
-
+    margin: 5em 10vw;
 }
 
 /* List */
+
 .list {
     
-    overflow: hidden;
+    overflow-x: hidden;
     width: 100%;
     margin: 0;
+    line-height: normal;
 }
 
+.title {
+    font-weight: bold;
+    font-size:3em;
+    text-transform: uppercase;
+    
+}
 .listitems {
     width: fit-content;
     display: flex;
+    align-items: center;
     column-gap: 24px;
     margin-left: 12px;
     margin-right: 12px;
+    background-color: #ddd;
+    padding:1rem;
 }
 
 /* ListItem */
@@ -36,31 +47,40 @@
     background-color: white;
     border: 2px solid #ccc;
     border-radius: 0.2em;
-    overflow: hidden;
     
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     
     flex: 0 0 auto;
+    width: 200px;
 }
+
+
 .listitem .image {
-    flex: 1;
-    min-height: 0;
+    flex: 1 0 auto;
     background-color: #e0e0e0;
     width: 100%;
-    object-fit: contain;
+
+    /* object-fit: contain; */
     align-self: center;
 }
-.listitem .owner, .listitem .nft_name {
+.listitem > *:not(.image){
     flex: 0 0 auto;
     padding-left: 0.5em;
+
 }
-.listitem .nft_name {
+
+.collection_name{
     font-size: 1.5em;
     font-weight: bold;
 }
-.listitem .owner {
-    font-size: 1.2em;
-    margin-left: 0.15em;
+
+.currency{
+    color:#f7921a
 }
+
+.count, .number{
+    color:#f7921a
+}
+
