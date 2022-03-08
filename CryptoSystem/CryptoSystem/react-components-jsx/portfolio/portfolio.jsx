@@ -25,7 +25,7 @@ const Portfolio = () => {
                 selectedSize={300}
                 columnGapPx={24}
                 key={api_response.key}>
-                    {getNFTs(api_response)}
+                    {getTopNFTs(api_response)}
             </List>)
     })
     .catch(err => {
@@ -34,10 +34,25 @@ const Portfolio = () => {
     
     
 
-    const getNFTs = (api_response) => {
+    const getTopNFTs = (api_response) => {
         return api_response.map( function (collection) {
             return <ListItem
                 url = {collection.url}
+                img = {collection.pic}
+                collection_name = {collection.name}
+                price = {collection.sum}
+                count = {collection.count}
+                currency = {collection.currency}
+                id = {collection.key}
+                key = {collection.key}
+                />
+        })
+    }
+
+    const getHotNFTs = (api_response) => {
+        return api_response.map( function (collection) {
+            return <ListItem
+                url = {"https://rarible.com/"+collection.shortUrl}
                 img = {collection.pic}
                 collection_name = {collection.name}
                 price = {collection.sum}
@@ -67,7 +82,7 @@ const Portfolio = () => {
                 selectedSize={300}
                 columnGapPx={24}
                 key={api_response.key}>
-                    {getNFTs(api_response)}
+                    {getHotNFTs(api_response)}
             </List>)
     })
     .catch(err => {
