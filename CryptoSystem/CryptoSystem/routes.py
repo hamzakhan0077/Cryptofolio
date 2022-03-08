@@ -1,9 +1,13 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
+<<<<<<< HEAD
+from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context, send_from_directory
+=======
 
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context,g,request
 
 from flask import send_from_directory
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
 
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
@@ -13,9 +17,12 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
+<<<<<<< HEAD
+=======
 from functools import wraps
 
 
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
 
@@ -231,15 +238,18 @@ def coinCall(crypto): # come back here and fix the sell part
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
     # print(form.validate_on_submit())
+<<<<<<< HEAD
+=======
 
     symbol = crypto_details['symbol'].upper()
     data = {}
     data['asset'] = symbol
 
+>>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
     if form.validate_on_submit():
         cc_form = credit_card()
         data['amount'] = form.amount.data
-        data['amount_receive'] = form.amount_receive.data
+        data['amount_receive'] = form.amount_receive.dataj
         addToWallet(form.amount.data,symbol)
         return render_template('payment.html',data = data,form = cc_form)
     if sellForm.validate_on_submit():
@@ -399,10 +409,9 @@ def logout():
 
 @app.route('/react-static/<path:filename>')
 def reactStatic(filename):
-    print (send_from_directory(app.config['REACT_COMPONENTS'],
-                               filename, as_attachment=True,
-                               mimetype='text/javascript'
-        ), file=sys.stderr)
+    #
+    if filename == "config.js":
+        return abort(404)
     return send_from_directory(app.config['REACT_COMPONENTS'],
                                filename, as_attachment=True,
                                mimetype='text/javascript'

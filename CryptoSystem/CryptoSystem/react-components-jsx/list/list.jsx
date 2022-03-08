@@ -7,16 +7,13 @@ const List = (props) => {
     const listItems=React.useRef(null);
     const list=React.useRef(null)
     const [style, setStyle] = React.useState({})
+    const children = {}
 
 
     const moveList = (newPos) => {
         // translate the list to newPos
         setStyle({transform:`translate(${position}px,0)`})
-
-        let listItemsRight = listItems.current ? listItems.current.getBoundingClientRect().right : 0;
-        let listRight = listItems.current ? list.current.getBoundingClientRect().right : 0;
-
-        if ( (listItemsRight <= listRight) && (newPos < position)) {
+        if ( (newPos < -getEndOfList()) && (newPos < position)) {
             return
         } else if(newPos > 0){
             setPosition(0)
@@ -25,6 +22,20 @@ const List = (props) => {
         }
     }
 
+    
+    const handleMouseMove = (e) => {
+        e.preventDefault()
+        if(e.buttons === 1){
+            if(isBeingDragged === false){
+                whenDragStart(e.clientX)
+            } else {
+                whenDrag(e.clientX)
+            }
+        } else if ((e.buttons === 0) && (isBeingDragged === true)) {
+            whenDragStop()
+        }
+    }
+    
     const whenDragStart = (clientX) => {
         setDragStart(clientX);
         setIsBeingDragged(true);
@@ -41,37 +52,39 @@ const List = (props) => {
         setIsBeingDragged(false);
         moveToGrid(position)        
     }
-
-    const handleMouseMove = (e) => {
-        e.preventDefault()
-        if(e.buttons === 1){
-            if(isBeingDragged === false){
-                whenDragStart(e.clientX)
-            } else {
-                whenDrag(e.clientX)
-            }
-        } else if ((e.buttons === 0) && (isBeingDragged === true)) {
-            whenDragStop()
-        }
+    const getEndOfList = () => {
+        let listWidth = list.current.offsetWidth;
+        let listItemsWidth = listItems.current.scrollWidth;
+        console.log("listWidth", listWidth)
+        console.log("listItemsWidth", listItemsWidth)
+        return listItemsWidth-listWidth        
     }
 
     const moveToGrid = (start) => {
-        let gridsize = props.unSelectedSize + props.columnGapPx
+        let gridsize = children[0].current.offsetWidth + props.columnGapPx;
         let nearestMultiple = gridsize*(Math.ceil((-start - gridsize/2) / gridsize))
+        let endOfList = getEndOfList()
 
-        setPosition(-nearestMultiple)
-        setStyle({transform:`translate(${-nearestMultiple}px, 0)`,
+        let finalDestination = (Math.abs(-position - nearestMultiple) < Math.abs(-position - endOfList)) ? nearestMultiple : (endOfList + 12)
+
+        setPosition(-finalDestination)
+        setStyle({transform:`translate(${-finalDestination}px, 0)`,
             transition:`transform .4s ease-out`})
 
     }
 
+    const getRefsFromListItems = (listItemRef, key) => {
+        children[key] = listItemRef
+    }
 
-    const childrenWithWidth = () => {
+
+    const childrenWithExtraProps = () => {
         // add extra props to the children
         return React.Children.map(props.children, child => {
             return React.cloneElement(child,{
                 unSelectedSize:props.unSelectedSize,
                 selectedSize:props.selectedSize,
+                passRefUpward:getRefsFromListItems,
             });
         });
         
@@ -80,14 +93,14 @@ const List = (props) => {
     return (
         <div className="list"
             ref={list}>
-            <span>{position}</span>
+            <span className="title">{props.title}</span>
 
             <div className="listitems" 
                 ref={listItems} 
                 onMouseMove={handleMouseMove}
                 style={style}
             >
-                {childrenWithWidth()}
+                {childrenWithExtraProps()}
             </div>                
 
         </div>
