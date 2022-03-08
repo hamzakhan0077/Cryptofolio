@@ -11,6 +11,7 @@ const List = (props) => {
 
 
     const moveList = (newPos) => {
+        // translate the list to newPos
         setStyle({transform:`translate(${position}px,0)`})
         if ( (newPos < -getEndOfList()) && (newPos < position)) {
             return
@@ -21,6 +22,20 @@ const List = (props) => {
         }
     }
 
+    
+    const handleMouseMove = (e) => {
+        e.preventDefault()
+        if(e.buttons === 1){
+            if(isBeingDragged === false){
+                whenDragStart(e.clientX)
+            } else {
+                whenDrag(e.clientX)
+            }
+        } else if ((e.buttons === 0) && (isBeingDragged === true)) {
+            whenDragStop()
+        }
+    }
+    
     const whenDragStart = (clientX) => {
         setDragStart(clientX);
         setIsBeingDragged(true);
@@ -37,20 +52,6 @@ const List = (props) => {
         setIsBeingDragged(false);
         moveToGrid(position)        
     }
-
-    const handleMouseMove = (e) => {
-        e.preventDefault()
-        if(e.buttons === 1){
-            if(isBeingDragged === false){
-                whenDragStart(e.clientX)
-            } else {
-                whenDrag(e.clientX)
-            }
-        } else if ((e.buttons === 0) && (isBeingDragged === true)) {
-            whenDragStop()
-        }
-    }
-
     const getEndOfList = () => {
         let listWidth = list.current.offsetWidth;
         let listItemsWidth = listItems.current.scrollWidth;

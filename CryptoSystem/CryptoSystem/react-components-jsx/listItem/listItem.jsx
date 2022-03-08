@@ -22,12 +22,15 @@ const ListItem = (props) => {
                 alt={`nft for ${props.nft_name}`}
                 onDragStart={(e) => e.preventDefault()}
             /> 
-
-            <span className="nft_name">{props.nft_name}</span>
-            <span className="owner">{props.owner}</span>
-            <div className="buy">
-                <a className="button" href="buy">Buy </a>                
-                <span className="price">{props.price}</span>
+            <div className="bottom">
+                <span className="collection_name">{props.collection_name}</span>
+                <div className="price">
+                    <span className="count">{props.count}</span><span> NFTs for </span>    
+                    <span className="currency">{props.currency} </span>
+                    <span className="number">{props.price}</span>
+                </div>
+                
+                            
             </div>
 
         </div>

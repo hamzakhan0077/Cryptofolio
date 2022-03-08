@@ -17,43 +17,43 @@ const Portfolio = () => {
     //                 owner={"owner"}
     //             />
     // </List>
-    let nftCollections = [
+    let collectionLists = [
         {
             key:0,
-            name:"monkeys",
             items:[
                 {
                     key:0,
-                    name:'the nft name',
-                    owner:"the owner name",
+                    name:'Collection name',
                     imageUrl:'https://picsum.photos/200/200',
-                    price:"€32"
+                    price:32,
+                    currency:"ETH",
+                    count:300,
                 },
-
             ],
         },
     ]
 
-    const getNFTs = (nftCollection) => {
-        return nftCollection.items.map( function (nft) {
+    const getNFTs = (collectionList) => {
+        return collectionList.items.map( function (collection) {
             return <ListItem
-                img = {nft.imageUrl}
-                nft_name = {nft.name}
-                owner = {nft.owner}
-                price = {nft.price}
-                id = {nft.key}
-                key = {nft.key}
+                img = {collection.imageUrl}
+                collection_name = {collection.name}
+                price = {collection.price}
+                count = {collection.count}
+                currency = {collection.currency}
+                id = {collection.key}
+                key = {collection.key}
                 />
         })
     }
 
-    const list = nftCollections.map(function (nftCollection) {
-        return <List title={nftCollection.name}
+    const list = collectionLists.map(function (collectionList) {
+        return <List title={collectionList.name}
             unSelectedSize={240}
             selectedSize={300}
             columnGapPx={24}
-            key={nftCollection.key}>
-                {getNFTs(nftCollection)}
+            key={collectionList.key}>
+                {getNFTs(collectionList)}
         </List>
     })
 
