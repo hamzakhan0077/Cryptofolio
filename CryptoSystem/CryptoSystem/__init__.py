@@ -37,3 +37,5 @@ cg = CoinGeckoAPI()
 from CryptoSystem import routes
 from CryptoSystem import forms
 from CryptoSystem import models
+from CryptoSystem.handlers import errors
+app.register_blueprint(errors)

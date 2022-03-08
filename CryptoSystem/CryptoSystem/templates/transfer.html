@@ -12,14 +12,15 @@
 
 {% endblock %}
 
-{% block userProfile %}
+{% block transfer %}
+
 <section id="contactpage" class="section-padding">
         <div class="container">
 			<div class="row">
 				<div class="col-12 text-center">
 					<div class="section-title">
-						<h5>Edit Your Personal Profile </h5>
-						<h3> <span>Profile</span> Set up</h3>
+						<h5>Transfer assets to your Pal </h5>
+
 					</div>
 				</div>
 			</div>
@@ -28,7 +29,7 @@
     <div class="row">
 				<div class="col-12 text-center">
 					<div class="section-title-2">
-						<h3>Update Your Profile</h3>
+						<h3>Transfer Assets </h3>
 					</div>
 				</div>
 				<div class="col-lg-7 mx-auto">
@@ -38,23 +39,42 @@
 								    {{ form.csrf_token }}
                                 <div class="row">
 									<div class="form-group col-12 mb-3">
-										   {{ form.bio.label }}
-                                            {{ form.bio(class = "form-control") }}
+										   {{ form.currency.label }}
+                                            {{ form.currency(class = "form-control") }}
 									</div>
 									<div class="form-group col-12 mb-3">
-										   {{ form.fav_crypto.label }}
-                                            {{ form.fav_crypto(class = "form-control") }}
+										   {{ form.amount.label }}
+                                            {{ form.amount(class = "form-control") }}
+									</div>
+                                    <div class="form-group col-12 mb-3">
+										   {{ form.receiver_wallet.label }}
+                                            {{ form.receiver_wallet(class = "form-control") }}
 									</div>
 									<div class="form-group col-lg-12 mb-0 text-center">
 										<div class="actions">
 											    {{ form.submit( class = "btn-style btn-filled") }}
-											<img src="assets/img/ajax-loader.gif" id="loader" style="display:none" alt="loading" width="16" height="16">
 										</div>
+										<div class="single-about-title">
+										{% with messages = get_flashed_messages() %}
+											{% if messages %}
+												{% for message in messages %}
+													<h5 style = "color:red">{{ message }}</h5>
+												{% endfor %}
+											{% endif %}
+										{% endwith %}
+									</div>
 									</div>
 								</div>
 							</form>
+							<script>
+							document.getElementById('currency').value = {{ the_asset| tojson| upper }};
+
+
+							</script>
+
 						</div>
 					</div>
+
 
 
 				</div>
@@ -62,12 +82,4 @@
 			<!-- end row -->
 
     </section>
-
-
-
-
-
-
-
-
-{% endblock userProfile %}
+{% endblock transfer %}
