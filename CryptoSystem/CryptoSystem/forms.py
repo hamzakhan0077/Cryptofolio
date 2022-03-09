@@ -38,6 +38,9 @@ class deal(FlaskForm):
 
     submit = SubmitField("Publish")
 
+# class search(FlaskForm):
+#     search = StringField('', validators=[DataRequired()])
+#     submit = SubmitField("Search")
 
 class Buy(FlaskForm):
     amount = FloatField('Amount', validators=[DataRequired()])

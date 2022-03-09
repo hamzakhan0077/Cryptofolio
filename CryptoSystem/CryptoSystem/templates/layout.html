@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/responsive.css') }}">
 
     <!-- NFT CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/nft.css') }}"></link>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/nft.css') }}">
 </head>
 
 
@@ -85,17 +85,12 @@
 									{% block trending %} {% endblock %}
                                     {% block linksAfterLogin %} {% endblock %}
 
-									<li><a href=" " class="nav-link">Contact</a></li> <!-- class - nav-link -- is used for links--->
+									<li><a href="/team" class="nav-link">Contact</a></li> <!-- class - nav-link -- is used for links--->
 								</ul>
 							</nav>
 						</div>
 						<div class="col-lg-3 d-none d-lg-block d-md-none text-right pr-0">
-							<form class="navbar-form">
-								<div class="form-group">
-									<input class="form-control" name="search" value="Search here..." type="text">
-									<button type="submit" class="btn"><i class="fa fa-search-plus"></i></button>
-								</div>
-							</form>
+
 						</div>
 					</div>
 				</div>
@@ -109,7 +104,7 @@
 {% block market %} {% endblock %}
 {% block coin %} {% endblock %}
 
-
+{% block team %} {% endblock %}
 
 
 {% block errors %} {% endblock %}
