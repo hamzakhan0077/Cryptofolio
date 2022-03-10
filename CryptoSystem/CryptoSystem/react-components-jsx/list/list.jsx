@@ -55,13 +55,12 @@ const List = (props) => {
     const getEndOfList = () => {
         let listWidth = list.current.offsetWidth;
         let listItemsWidth = listItems.current.scrollWidth;
-        console.log("listWidth", listWidth)
-        console.log("listItemsWidth", listItemsWidth)
         return listItemsWidth-listWidth        
     }
 
     const moveToGrid = (start) => {
-        let gridsize = children[0].current.offsetWidth + props.columnGapPx;
+        console.log()
+        let gridsize = Object.values(children)[0].current.offsetWidth + props.columnGapPx;
         let nearestMultiple = gridsize*(Math.ceil((-start - gridsize/2) / gridsize))
         let endOfList = getEndOfList()
 

@@ -1,13 +1,12 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
-<<<<<<< HEAD
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context, send_from_directory
-=======
 
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context,g,request
 
-from flask import send_from_directory
->>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
+from flask import send_from_directory, jsonify
+import requests, json
+
 
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
@@ -17,12 +16,12 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
-<<<<<<< HEAD
-=======
+
+
 from functools import wraps
 
 
->>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
+
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
 
@@ -173,8 +172,6 @@ def transfer_assets(asset):
 
 
 
-
-
 @app.route('/dealUpload/<string:asset>',methods=['GET', 'POST'])
 @login_required
 def deal_upload(asset):
@@ -238,14 +235,13 @@ def coinCall(crypto): # come back here and fix the sell part
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
     # print(form.validate_on_submit())
-<<<<<<< HEAD
-=======
+
 
     symbol = crypto_details['symbol'].upper()
     data = {}
     data['asset'] = symbol
 
->>>>>>> 5defb623226d9019cf7c1206aa0dacce5a919546
+
     if form.validate_on_submit():
         cc_form = credit_card()
         data['amount'] = form.amount.data
@@ -405,18 +401,31 @@ def logout():
 
 
 
-""" ******************** Static Files ******************** """
+""" ******************** NFT ******************** """
 
 @app.route('/react-static/<path:filename>')
 def reactStatic(filename):
-    #
-    if filename == "config.js":
-        return abort(404)
     return send_from_directory(app.config['REACT_COMPONENTS'],
-                               filename, as_attachment=True,
-                               mimetype='text/javascript'
+                            filename, as_attachment=True,
+                            mimetype='text/javascript'
         )
 
+
+@app.route("/nft-api/<string:query>")
+def nftApi(query):
+    urls = {
+        "hot":"https://rarible-data-scraper.p.rapidapi.com/hot_collection",
+        "top":"https://rarible-data-scraper.p.rapidapi.com/top_collection/7/25"
+    }
+    if query in urls.keys():
+         url = urls[query]
+
+    response =requests.get(url, headers={
+                "x-rapidapi-host": "rarible-data-scraper.p.rapidapi.com",
+                "x-rapidapi-key": '956b93970amsh0557a4725a6aec2p1f7630jsnd6516534bfa7'
+            })
+
+    return json.loads(response.text)
 
 """ ******************** MISC ******************** """
 
