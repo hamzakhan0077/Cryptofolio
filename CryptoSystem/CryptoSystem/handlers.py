@@ -17,3 +17,5 @@ def error_403(error):
 def error_500(error):
     return render_template("errors/500.html"),500
 
+if __name__ == '__main__':
+    pass

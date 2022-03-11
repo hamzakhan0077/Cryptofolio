@@ -112,19 +112,13 @@
 
 							var amount = document.getElementById('amount');
 							var amount_receive = document.getElementById('amount_receive');
-
 							amount.onchange = function() {
-
 							amount = amount.value;
 							out = amount * {{ crypto_details["current_price"]|tojson }};
 							document.getElementById("amount_receive").value = out;
-
-
 							}
 							amount_receive.onchange = function() {
 							var out1 = 0;
-
-
 							amount_rec = amount_receive.value;
 							out1 = amount_rec / {{ crypto_details["current_price"]|tojson }};
 							document.getElementById("amount").value = out1;

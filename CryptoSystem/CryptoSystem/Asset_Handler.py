@@ -1,12 +1,5 @@
-# name of asset
-# market value of asset
-
-# wallet has amount of the asset
-# wallet has balance
-
 
 class Asset_Handler:
-
     def __init__(self, name, marketVal):
         self._name = name
         self._marketVal = marketVal
@@ -25,3 +18,5 @@ class Asset_Handler:
         return ans
 
 
+if __name__ == '__main__':
+    pass

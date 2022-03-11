@@ -39,3 +39,6 @@ from CryptoSystem import forms
 from CryptoSystem import models
 from CryptoSystem.handlers import errors
 app.register_blueprint(errors)
+
+if __name__ == '__main__':
+    pass
