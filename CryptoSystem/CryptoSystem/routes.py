@@ -72,28 +72,31 @@ def trade_deal(ad_id): # This method makes the deal happen between two peers
     coin_dict = coin_info_dict()
     transaction = {'advertiser':"",'offered_asset':"",'paid':""}
     email_for_nav = user['the_user'].email
-
+    owned_asset_ids = [j.asset_id for j in user['current_assets']]
     if ad.email != user['the_user'].email: # handling the case where Same user tries to make his own deal
-        for user_asset in user['current_assets']:
-            if user_asset.asset_id == ad.advertiser_accepting:
-                # we have record of price in Crypto to USD (NOT CRYPTO TO ANOTHER CRYPTO eg BTC -ETH)
-                if user_asset.asset_amount * coin_dict[user_asset.asset_id.upper()]['current_price'] >= locale.atof(ad.sell_price.strip("$")):
-                    transaction['paid'] = locale.atof(ad.sell_price.strip("$")) / coin_dict[user_asset.asset_id.upper()]['current_price']
-                    user_asset.asset_amount -= transaction['paid']
-                    db.session.commit()
-                    addToWallet(ad.offering_amount,ad.advertiser_offering) # deal completes here
-                    # I don't need to remove from the advertiser's wallet because
-                    # when an advertiser uploads a deal their assets are deducted and are on hold
-                    # in that deal. If the deal is successful like here. The assets are not needed to be deducted
-                    # as they were already on hold.
-                    transaction['advertiser'] = ad.email
-                    transaction['offered_asset'] = (ad.asset_id,ad.offering_amount)
-                    db.session.delete(ad)
-                    db.session.commit()
-                    return render_template("tradeDeal.html",coin_dict= coin_dict,transaction=transaction,ad=ad_data,email_for_nav = email_for_nav)
-                else:
-                    flash(f"You do not have sufficient {ad.advertiser_accepting} to make this deal Please Purchase more from the market.")
-                    break
+        if ad.advertiser_accepting in owned_asset_ids:
+            for user_asset in user['current_assets']:
+                if user_asset.asset_id == ad.advertiser_accepting:
+                    # we have record of price in Crypto to USD (NOT CRYPTO TO ANOTHER CRYPTO eg BTC -ETH)
+                    if user_asset.asset_amount * coin_dict[user_asset.asset_id.upper()]['current_price'] >= locale.atof(ad.sell_price.strip("$")):
+                        transaction['paid'] = locale.atof(ad.sell_price.strip("$")) / coin_dict[user_asset.asset_id.upper()]['current_price']
+                        user_asset.asset_amount -= transaction['paid']
+                        db.session.commit()
+                        addToWallet(ad.offering_amount,ad.advertiser_offering) # deal completes here
+                        # I don't need to remove from the advertiser's wallet because
+                        # when an advertiser uploads a deal their assets are deducted and are on hold
+                        # in that deal. If the deal is successful like here. The assets are not needed to be deducted
+                        # as they were already on hold.
+                        transaction['advertiser'] = ad.email
+                        transaction['offered_asset'] = (ad.asset_id,ad.offering_amount)
+                        db.session.delete(ad)
+                        db.session.commit()
+                        return render_template("tradeDeal.html",coin_dict= coin_dict,transaction=transaction,ad=ad_data,email_for_nav = email_for_nav)
+                    else:
+                        flash(f"You do not have sufficient {ad.advertiser_accepting} to make this deal Please Purchase more from the market.")
+                        break
+        else:
+            flash(f"You don't own any amount of this asset Please purchase from the market")
     else:
         flash(f"Please don't try to self trade.")
 
