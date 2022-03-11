@@ -1,4 +1,4 @@
-vAuthlib==0.15.5
+Authlib==0.15.5
 Flask==2.0.2
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.0.0
