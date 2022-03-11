@@ -1,47 +1,25 @@
 import List from "../list/list.js";
 import ListItem from "../listItem/listItem.js";
-import { MY_API_KEY } from '../config.js';
 
 const Portfolio = () => {
   const [topList, setTopList] = React.useState();
   const [hotList, setHotList] = React.useState();
-  fetch("https://rarible-data-scraper.p.rapidapi.com/top_collection/7/25", {
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-host": "rarible-data-scraper.p.rapidapi.com",
-      "x-rapidapi-key": MY_API_KEY
-    }
-  }) // read the data in json file
-  .then(response => response.json()).then(response => {
-    let api_response = response.list;
-    setTopList( /*#__PURE__*/React.createElement(List, {
-      title: "Top Collection",
+
+  const createList = (title, api_response) => {
+    return /*#__PURE__*/React.createElement(List, {
+      title: title,
       unSelectedSize: 240,
       selectedSize: 300,
       columnGapPx: 24,
-      key: api_response.key
-    }, getTopNFTs(api_response)));
-  }).catch(err => {
-    console.error(err);
-  });
-
-  const getTopNFTs = api_response => {
-    return api_response.map(function (collection) {
-      return /*#__PURE__*/React.createElement(ListItem, {
-        url: collection.url,
-        img: collection.pic,
-        collection_name: collection.name,
-        price: collection.sum,
-        count: collection.count,
-        currency: collection.currency,
-        id: collection.key,
-        key: collection.key
-      });
-    });
+      key: title
+    }, getNFTs(api_response));
   };
 
-  const getHotNFTs = api_response => {
-    return api_response.map(function (collection) {
+  const getNFTs = api_response => {
+    return api_response.list.map(function (collection) {
+      if(collection.pic == null){
+        return
+      }
       return /*#__PURE__*/React.createElement(ListItem, {
         url: "https://rarible.com/" + collection.shortUrl,
         img: collection.pic,
@@ -49,31 +27,30 @@ const Portfolio = () => {
         price: collection.sum,
         count: collection.count,
         currency: collection.currency,
-        id: collection.key,
-        key: collection.key
+        id: collection.id,
+        key: collection.id
       });
     });
   };
 
-  fetch("https://rarible-data-scraper.p.rapidapi.com/hot_collection", {
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-host": "rarible-data-scraper.p.rapidapi.com",
-      "x-rapidapi-key": MY_API_KEY
-    }
-  }) // read the data in json file
-  .then(response => response.json()).then(response => {
-    let api_response = response.list;
-    setHotList( /*#__PURE__*/React.createElement(List, {
-      title: "Trending Collection",
-      unSelectedSize: 240,
-      selectedSize: 300,
-      columnGapPx: 24,
-      key: api_response.key
-    }, getHotNFTs(api_response)));
-  }).catch(err => {
-    console.error(err);
-  });
+  const getResponse = (url, handler) => {
+    fetch(url, {
+      "method": "GET"
+    }) // read the data in json file
+    .then(response => response.json()).then(response => {
+      handler(response);
+    }).catch(err => {
+      console.error(err);
+    });
+  };
+
+  React.useEffect(function () {
+    var url = window.location.href;
+    var arr = url.split("/");
+    var result = arr[0] + "//" + arr[2];
+    getResponse(result + "/nft-api/top", response => setTopList(createList("Top Collections", response)));
+    getResponse(result + "/nft-api/hot", response => setHotList(createList("Trending Collections", response)));
+  }, []);
   return /*#__PURE__*/React.createElement("section", {
     className: "portfolio"
   }, topList, hotList);

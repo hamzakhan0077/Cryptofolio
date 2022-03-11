@@ -1,6 +1,8 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context,g,request,send_from_directory
+from flask import send_from_directory
+import requests, json
 from CryptoSystem.Wallet_Handler import *
 from CryptoSystem.Asset_Handler import *
 from CryptoSystem.models import *
@@ -201,6 +203,10 @@ def coinCall(crypto): # come back here and fix the sell part
     result = cg.get_coin_market_chart_range_by_id(id=crypto_details["id"], vs_currency=chosen_currency,
                                                   from_timestamp=str(int(current_unix_time) - (86400 * days)),
                                                   to_timestamp=current_unix_time)["prices"]
+
+    symbol = crypto_details['symbol'].upper()
+    data = {}
+    data['asset'] = symbol
     symbol = crypto_details['symbol'].upper()
     data = {}
     data['asset'] = symbol
@@ -310,18 +316,31 @@ def logout():
 
 
 
-""" ******************** Static Files ******************** """
+""" ******************** NFT ******************** """
 
 @app.route('/react-static/<path:filename>')
 def reactStatic(filename):
-    #
-    if filename == "config.js":
-        return abort(404)
     return send_from_directory(app.config['REACT_COMPONENTS'],
-                               filename, as_attachment=True,
-                               mimetype='text/javascript'
+                            filename, as_attachment=True,
+                            mimetype='text/javascript'
         )
 
+
+@app.route("/nft-api/<string:query>")
+def nftApi(query):
+    urls = {
+        "hot":"https://rarible-data-scraper.p.rapidapi.com/hot_collection",
+        "top":"https://rarible-data-scraper.p.rapidapi.com/top_collection/7/25"
+    }
+    if query in urls.keys():
+         url = urls[query]
+
+    response =requests.get(url, headers={
+                "x-rapidapi-host": "rarible-data-scraper.p.rapidapi.com",
+                "x-rapidapi-key": '956b93970amsh0557a4725a6aec2p1f7630jsnd6516534bfa7'
+            })
+
+    return json.loads(response.text)
 
 """ ******************** MISC ******************** """
 @app.route('/team')
