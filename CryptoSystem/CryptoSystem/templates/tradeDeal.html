@@ -3,10 +3,11 @@
 
 {% block linksAfterLogin %}
 <li><a href="{{ url_for('market') }}" class="nav-link">Market Trade</a></li>
-<li><a href=" " class="nav-link">Peer to Peer Trade</a></li>
+<li><a href="{{ url_for('p2p') }}" class="nav-link">Peer to Peer Trade</a></li>
 <li><a href="{{ url_for('showWallet') }}" class="nav-link">Wallet</a></li>
 <li><a href="{{ url_for('nft') }}" class="nav-link">NFT</a></li>
-<li><a href="{{ url_for('userProfile') }}" class="nav-link">View Profile</a></li>
+
+<li><a href="/viewUserProfile/{{ email_for_nav }}" class="nav-link">View Profile</a></li>
 <li><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
 
 

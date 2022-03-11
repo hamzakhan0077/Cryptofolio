@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+
+
+
+{% block linksAfterLogin %}
+<li><a href="{{ url_for('market') }}" class="nav-link">Market</a></li>
+<li><a href="{{ url_for('p2p') }} " class="nav-link">Peer to Peer Trade</a></li>
+<li><a href="{{ url_for('showWallet') }}" class="nav-link">Wallet</a></li>
+<li><a href="{{ url_for('nft') }}" class="nav-link">NFT</a></li>
+<li><a href="{{ url_for('userProfile') }}" class="nav-link">View Profile</a></li>
+<li><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+
+{% endblock linksAfterLogin %}
+
+
+
+{% block team %}
+	<section id="page-banner">
+		<div class="single-page-title-area overlay" data-background="{{ url_for('static', filename='images/bg/slide1.jpg') }}">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<div class="single-page-title">
+							<h2>Cryptofolio Developers</h2>
+							<p>Meet the Team</p>
+						</div>
+					</div>
+				</div>
+				<!-- end row-->
+			</div>
+		</div>
+		<div class="single-page-title-area-bottom">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item active">Team</li>
+						</ol>
+					</div>
+				</div>
+				<!-- end row-->
+			</div>
+		</div>
+
+	</section>
+
+    <section id="team" class="section-padding">
+        <div class="container">
+			<div class="row text-center">
+				<div class="col-lg-3 col-md-3 col-12 mb-lg-5 mb-md-5 mb-5">
+					<div class="single-team-wrapper">
+						<div class="single-team">
+							<div class="single-team-img">
+								<img class="img-fluid" src="{{ url_for('static', filename='images/team/Eoghan.png') }}" alt="">
+
+							</div>
+							<div class="single-team-meta">
+								<h4>Eoghan Daly</h4>
+								<span>The Api Nerd</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end col -->
+				<div class="col-lg-3 col-md-3 col-12 mb-lg-5 mb-md-5 mb-5">
+					<div class="single-team-wrapper">
+						<div class="single-team">
+							<div class="single-team-img">
+								<img class="img-fluid" src="{{ url_for('static', filename='images/team/Niko.png') }}" alt="">
+
+							</div>
+							<div class="single-team-meta">
+								 <h4>Nicholas Lozko</h4>
+								<span>A Non Fungible Token</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end col -->
+				<div class="col-lg-3 col-md-3 col-12 mb-lg-5 mb-md-5 mb-5">
+					<div class="single-team-wrapper">
+						<div class="single-team">
+							<div class="single-team-img">
+								<img class="img-fluid" src="{{ url_for('static', filename='images/team/Karim.png') }}" alt="">
+
+							</div>
+							<div class="single-team-meta">
+								<h4>Karim Ulmann</h4>
+								<span>An object of a class</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end col -->
+				<div class="col-lg-3 col-md-3 col-12 mb-lg-5 mb-md-5 mb-5">
+					<div class="single-team-wrapper">
+						<div class="single-team">
+							<div class="single-team-img">
+								<img class="img-fluid" src="{{ url_for('static', filename='images/team/Liam.png') }}" alt="">
+							</div>
+							<div class="single-team-meta">
+								<h4>Liam Lenihan</h4>
+								<span>The Database Ninja</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end col -->
+				<div class="col-lg-3 col-md-3 col-12 mb-lg-0 mb-md-0 mb-5">
+					<div class="single-team-wrapper">
+						<div class="single-team">
+							<div class="single-team-img">
+								<img class="img-fluid" src="{{ url_for('static', filename='images/team/Hamza.png') }}" alt="">
+
+							</div>
+							<div class="single-team-meta">
+								<h4>Hamza Khan</h4>
+								<span>The Cryptofolio Ark</span>
+								<
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end col -->
+
+			</div>
+			<!-- end row -->
+        </div>
+        <!--- END CONTAINER -->
+    </section>
+    <!-- END TEAM SECTION -->
+
+
+
+{% endblock team %}

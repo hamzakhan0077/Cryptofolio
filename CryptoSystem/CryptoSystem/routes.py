@@ -1,10 +1,8 @@
 from CryptoSystem import app,oauth
 from CryptoSystem.forms import *
-from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context, send_from_directory
 
 from flask import render_template,url_for,redirect, session,abort,flash,copy_current_request_context,g,request
-
-from flask import send_from_directory, jsonify
+from flask import send_from_directory
 import requests, json
 
 
@@ -16,7 +14,6 @@ from datetime import date
 from CryptoSystem import db, cg
 from pycoingecko import CoinGeckoAPI
 from CryptoSystem.helpers import *
-
 
 from functools import wraps
 
@@ -76,6 +73,14 @@ def p2p():
     all_ads = Advertisement.query.all() # List of Advertisement Model Objects
     return render_template("peer2peer.html",all_ads = all_ads,coin_dict = coin_dict)
 
+# @app.route('/search',methods=['GET', 'POST'])
+# def search():
+#     form = search
+#     all_coin_names = [coin["name"].capitalize() for coin in cg.get_coins_markets(vs_currency='usd')]
+#     if form.validate_on_submit():
+#         if form.search.data.capitalize() in all_coin_names:
+#             return redirect(f'coin/{form.search.data}')
+
 
 @app.route('/tradeDeal/<int:ad_id>')
 @login_required
@@ -86,6 +91,7 @@ def trade_deal(ad_id): # This method makes the deal happen between two peers
     user = user_info_dict()
     coin_dict = coin_info_dict()
     transaction = {'advertiser':"",'offered_asset':"",'paid':""}
+    email_for_nav = user['the_user'].email
 
     if ad.email != user['the_user'].email: # handling the case where Same user tries to make his own deal
         for user_asset in user['current_assets']:
@@ -105,15 +111,15 @@ def trade_deal(ad_id): # This method makes the deal happen between two peers
                     transaction['offered_asset'] = (ad.asset_id,ad.offering_amount)
                     db.session.delete(ad)
                     db.session.commit()
-                    return render_template("tradeDeal.html",coin_dict= coin_dict,transaction=transaction,ad=ad_data)
+                    return render_template("tradeDeal.html",coin_dict= coin_dict,transaction=transaction,ad=ad_data,email_for_nav = email_for_nav)
 
-            else:
-                flash(f"You do not have sufficient {ad.advertiser_accepting} to make this deal Please Purchase more from the market.")
-                break
+                else:
+                    flash(f"You do not have sufficient {ad.advertiser_accepting} to make this deal Please Purchase more from the market.")
+                    break
     else:
         flash(f"Please don't try to self trade.")
 
-    return render_template("tradeDeal.html")
+    return render_template("tradeDeal.html",email_for_nav = email_for_nav)
 
 #Healper method that makes  transfer happen
 def transferring(wallet_hash,asset_to_transfer,Amount):
@@ -143,6 +149,8 @@ def transfer_assets(asset):
     the_asset = asset
     form = transfer()
     user_info = user_info_dict()
+    email_for_nav = user_info['the_user'].email
+
     if form.validate_on_submit():
         for owned_asset in user_info['current_assets']:
             if owned_asset.asset_id == asset.upper():
@@ -168,7 +176,7 @@ def transfer_assets(asset):
 
 
 
-    return render_template("transfer.html",form=form,the_asset = the_asset)
+    return render_template("transfer.html",form=form,the_asset = the_asset,email_for_nav = email_for_nav)
 
 
 
@@ -235,17 +243,23 @@ def coinCall(crypto): # come back here and fix the sell part
                                                   to_timestamp=current_unix_time)["prices"]
     # print(result)
     # print(form.validate_on_submit())
+<<<<<<< HEAD
 
+=======
+>>>>>>> ca7da8627412530e52415678251d0fc8ed1310c6
 
     symbol = crypto_details['symbol'].upper()
     data = {}
     data['asset'] = symbol
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ca7da8627412530e52415678251d0fc8ed1310c6
     if form.validate_on_submit():
         cc_form = credit_card()
         data['amount'] = form.amount.data
-        data['amount_receive'] = form.amount_receive.dataj
+        data['amount_receive'] = form.amount_receive.data
         addToWallet(form.amount.data,symbol)
         return render_template('payment.html',data = data,form = cc_form)
     if sellForm.validate_on_submit():
@@ -317,7 +331,7 @@ def showWallet():
     overall_value_formatted = '${:,.2f}'.format(overall_value)
     # for val in all_assets:
     #     wallet_handler.fillAssets(val[0],val[1])
-    return render_template("wallet.html", wallet=wallet_handler,owned_cryptos = owned_cryptos,overall_value=overall_value_formatted)
+    return render_template("wallet.html", wallet=wallet_handler,owned_cryptos = owned_cryptos,overall_value=overall_value_formatted,email_for_nav = session['email'])
 
 
 
@@ -339,7 +353,7 @@ def userProfile():
         return redirect(f'/viewUserProfile/{user_email}')
 
 
-    return render_template("userProfile.html", form=form)
+    return render_template("userProfile.html", form=form,email_for_nav = user_email)
 
 @app.route('/viewUserProfile/<string:email>',methods=['GET', 'POST'])
 @login_required
@@ -428,6 +442,10 @@ def nftApi(query):
     return json.loads(response.text)
 
 """ ******************** MISC ******************** """
+@app.route('/team')
+@login_required
+def team():
+    return render_template('team.html')
 
 
 
