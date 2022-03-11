@@ -17,6 +17,9 @@ const Portfolio = () => {
     }
     const getNFTs = (api_response) => {
         return api_response.list.map( function (collection) {
+            if(collection.pic == null){
+                return
+            }
             return <ListItem
                 url = {"https://rarible.com/"+collection.shortUrl}
                 img = {collection.pic}
